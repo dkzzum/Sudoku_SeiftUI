@@ -73,11 +73,13 @@ struct TextAndText: Identifiable {
 struct BigCenterButton: View {
     var grid = Grid(len_area: 3)
     @State private var isShowingDetailsView = false
+    @State var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
+    @State var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
     
     var body: some View {
         NavigationView {
             NavigationLink {
-                GameScreen(len_area: grid.len_area)
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus)
             } label: {
                 Text("Начать игру")
 //                Button("Steart gmae") {

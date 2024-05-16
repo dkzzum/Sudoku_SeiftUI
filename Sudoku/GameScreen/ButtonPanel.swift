@@ -18,6 +18,7 @@ struct NumberPicker: View {
     @Binding var selectedNumber: Int?
     @Binding var lastTappedIndex: Int?
     @Binding var numbersInCells: [Int: Int]
+    @Binding var cellStatus: [Int: Bool] // Привязка к статусу ячеек
     @State private var actionStack: [Action] = [] // Стек для хранения истории действий
 
     var body: some View {
@@ -25,6 +26,9 @@ struct NumberPicker: View {
             ShowPanel(cards: cards, eraseAction: eraseNumber, undoAction: undoLastAction)
             ShowNum(onTap: { number in
                 if let currentIndex = lastTappedIndex {
+                    // Проверяем, можно ли изменить число в ячейке
+                    if cellStatus[currentIndex] == true { return } // Если ячейка заполнена автоматически, ничего не делаем
+
                     // Сохраняем текущее состояние для отмены
                     let previousNumber = numbersInCells[currentIndex]
                     actionStack.append(Action(type: .place, index: currentIndex, previousValue: previousNumber))
@@ -42,7 +46,13 @@ struct NumberPicker: View {
 
     // Функция для удаления числа из активной ячейки
     private func eraseNumber() {
+        let cs = cellStatus
         if let currentIndex = lastTappedIndex, let previousNumber = numbersInCells[currentIndex] {
+            // Проверяем, можно ли стереть число в ячейке
+            if cellStatus[currentIndex] == true {
+                return
+            } // Если ячейка заполнена автоматически, ничего не делаем
+
             // Сохраняем текущее состояние для отмены
             actionStack.append(Action(type: .erase, index: currentIndex, previousValue: previousNumber))
             

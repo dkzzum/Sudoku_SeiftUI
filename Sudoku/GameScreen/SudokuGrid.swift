@@ -12,7 +12,7 @@ struct ContainerGrid: View {
     @Binding var selectedNumber: Int? // Привязка к выбранному числу
     @Binding var lastTappedIndex: Int? // Привязка к индексу последней выбранной ячейки
     @Binding var numbersInCells: [Int: Int] // Привязка к словарю чисел в ячейках
-    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
     @State private var gameTime: TimeInterval = 0 // Время игры
     @State private var errorCount: Int = 0 // Количество ошибок
     @State private var difficultyLevel: String = "Easy" // Уровень сложности
@@ -28,6 +28,7 @@ struct ContainerGrid: View {
         .background(Color(red: 0.966, green: 0.973, blue: 0.997)) // Цвет фона контейнера
         .cornerRadius(10) // Скругленные углы контейнера
         .onAppear {
+            print("ContainerGrid appeared")
             startTimer()
             generateSudokuField()
         }
@@ -40,6 +41,7 @@ struct ContainerGrid: View {
     }
     
     func generateSudokuField() {
+        print("Generating Sudoku field")
         let grid = Grid(len_area: len_area)
         let userField = grid.removeCells(difficulty: difficultyLevel)
         
@@ -52,8 +54,11 @@ struct ContainerGrid: View {
                 }
             }
         }
+        print(cellStatus)
+        print("Completed generating Sudoku field")
     }
 }
+
 
 
 struct SudokuGrid: View {
@@ -169,23 +174,23 @@ struct TopInfo: View {
 }
 
 
-struct eScreen: View {
-    let len_area: Int
-    @State private var selectedNumber: Int?
-    @State private var lastTappedIndex: Int?
-    @State private var numbersInCells: [Int: Int] = [:]  // Инициализация пустого словаря
+//struct eScreen: View {
+//    let len_area: Int
+//    @State private var selectedNumber: Int?
+//    @State private var lastTappedIndex: Int?
+//    @State private var numbersInCells: [Int: Int] = [:]  // Инициализация пустого словаря
+//
+//    var body: some View {
+//        VStack() {
+//            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells)
+//            
+//        }
+//        .toolbar(.hidden, for: .tabBar)
+//        .frame(maxWidth: .infinity)
+//    }
+//}
 
-    var body: some View {
-        VStack() {
-            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells)
-            
-        }
-        .toolbar(.hidden, for: .tabBar)
-        .frame(maxWidth: .infinity)
-    }
-}
 
-
-#Preview {
-    eScreen(len_area: 3)
-}
+//#Preview {
+//    eScreen(len_area: 3)
+//}
