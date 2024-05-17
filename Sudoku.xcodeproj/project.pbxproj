@@ -20,6 +20,7 @@
 		835D1D4B2BE2BCD500326A0E /* TopPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835D1D4A2BE2BCD500326A0E /* TopPanel.swift */; };
 		835D1D4E2BE2BFC100326A0E /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835D1D4D2BE2BFC100326A0E /* MenuScreen.swift */; };
 		839ED18D2BF78AC4001C9CB9 /* pvre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839ED18C2BF78AC4001C9CB9 /* pvre.swift */; };
+		839ED18F2BF7AAB9001C9CB9 /* EndScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839ED18E2BF7AAB9001C9CB9 /* EndScreen.swift */; };
 		83AC00442BE3EB520055E44C /* File in Resources */ = {isa = PBXBuildFile; fileRef = 83AC00432BE3EB520055E44C /* File */; };
 		83AC00472BE3F26A0055E44C /* first.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83AC00452BE3F26A0055E44C /* first.jpg */; };
 		83AC00482BE3F26A0055E44C /* second.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83AC00462BE3F26A0055E44C /* second.jpg */; };
@@ -61,6 +62,7 @@
 		835D1D4A2BE2BCD500326A0E /* TopPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopPanel.swift; sourceTree = "<group>"; };
 		835D1D4D2BE2BFC100326A0E /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
 		839ED18C2BF78AC4001C9CB9 /* pvre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pvre.swift; sourceTree = "<group>"; };
+		839ED18E2BF7AAB9001C9CB9 /* EndScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndScreen.swift; sourceTree = "<group>"; };
 		83AC00432BE3EB520055E44C /* File */ = {isa = PBXFileReference; lastKnownFileType = text; path = File; sourceTree = "<group>"; };
 		83AC00452BE3F26A0055E44C /* first.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = first.jpg; sourceTree = "<group>"; };
 		83AC00462BE3F26A0055E44C /* second.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = second.jpg; path = "../../../../Library/Application Support/Dropzone/Promised Files/DzFilePromise-3AA571C5-CF1C-46F6-AAC2-55426821D33B/second.jpg"; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				835D1D482BE2BAE700326A0E /* ScreenGame.swift */,
 				835D1D4A2BE2BCD500326A0E /* TopPanel.swift */,
 				839ED18C2BF78AC4001C9CB9 /* pvre.swift */,
+				839ED18E2BF7AAB9001C9CB9 /* EndScreen.swift */,
 			);
 			path = GameScreen;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				835D1D4B2BE2BCD500326A0E /* TopPanel.swift in Sources */,
 				839ED18D2BF78AC4001C9CB9 /* pvre.swift in Sources */,
 				835D1D492BE2BAE700326A0E /* ScreenGame.swift in Sources */,
+				839ED18F2BF7AAB9001C9CB9 /* EndScreen.swift in Sources */,
 				8352F2912BDD460F00403B45 /* ContentView.swift in Sources */,
 				8352F28F2BDD460F00403B45 /* SudokuApp.swift in Sources */,
 			);

@@ -20,14 +20,15 @@ struct GameScreen: View {
     @Binding var showCompletionAlert: Bool
     @Binding var gameTime: TimeInterval
     @Binding var gameTimer: Timer?
-    
+    @Binding var highlightedNumber: Int?
+    @Binding var placedNumbersCount: [Int: Int]
 
     var body: some View {
         VStack(spacing: 30) {
             TopPanel() // Верхняя панель с информацией
-            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert)
+            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount)
                 .frame(width: 360.0) // Устанавливаем ширину контейнера для сетки
-            NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer)
+            NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
                 .frame(width: 360.0) // Устанавливаем ширину панели с цифрами
         }
         .overlay(
@@ -43,6 +44,13 @@ struct GameScreen: View {
         }
         .onDisappear {
             stopTimer()
+            numbersInCells.removeAll()
+            cellStatus.removeAll()
+            cellColors.removeAll()
+            allNumbersInCells.removeAll()
+            highlightedNumber = nil
+            selectedNumber = nil
+            lastTappedIndex = nil
         }
     }
     

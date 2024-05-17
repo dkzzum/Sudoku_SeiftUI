@@ -83,11 +83,12 @@ struct BigCenterButton: View {
     @State private var gameTime: TimeInterval = 0
     @State private var gameTimer: Timer?
     @State private var highlightedNumber: Int? = nil
+    @State private var placedNumbersCount: [Int: Int] = [:]
     
     var body: some View {
         NavigationView {
             NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer)
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
             } label: {
                 Text("Начать игру")
                     .font(.title)

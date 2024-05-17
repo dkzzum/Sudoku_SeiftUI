@@ -14,8 +14,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "196"
-            endingLineNumber = "196"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -39,17 +39,79 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BF2B9940-1B0A-4898-B26F-468C1EB6D218"
-            shouldBeEnabled = "No"
+            uuid = "47AC309C-B90E-4EBC-80B4-6FB0F732C2B0"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Sudoku/GameScreen/SudokuGrid.swift"
+            filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "generateSudokuField()"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE5E90BC-2717-4C14-BA63-1B240E9F6CB3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sudoku/GameScreen/ButtonPanel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "placeNumber(_:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3A63361C-15BD-43CF-BC40-510954AD5D60"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sudoku/GameScreen/ButtonPanel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "3A63361C-15BD-43CF-BC40-510954AD5D60 - c72b88ad372667d2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Sudoku.ShowNum.body.getter : some"
+                  moduleName = "Sudoku"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "208"
+                  endingLineNumber = "208">
+               </Location>
+               <Location
+                  uuid = "3A63361C-15BD-43CF-BC40-510954AD5D60 - 8105162685270533"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.frame(width: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, height: Swift.Optional&lt;CoreGraphics.CGFloat&gt;, alignment: SwiftUI.Alignment) -&gt; some&gt;&gt;.0 in Sudoku.ShowNum.body.getter : some"
+                  moduleName = "Sudoku"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "208"
+                  endingLineNumber = "208">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

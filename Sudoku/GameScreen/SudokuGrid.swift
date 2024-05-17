@@ -17,14 +17,17 @@ struct ContainerGrid: View {
     @Binding var allNumbersInCells: [Int: Int]
     @Binding var errorCount: Int // Количество ошибок
     @Binding var showEndGameAlert: Bool
-    
+    @Binding var highlightedNumber: Int?
+    @Binding var gameTimer: Timer?
+    @Binding var placedNumbersCount: [Int: Int]
+
     @State private var gameTime: TimeInterval = 0 // Время игры
     @State private var difficultyLevel: String = "Easy" // Уровень сложности
     
     var body: some View {
         VStack {
             TopInfo(gameTime: $gameTime, errorCount: $errorCount, difficultyLevel: $difficultyLevel)
-            SudokuGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells)
+            SudokuGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber)
                 .padding([.leading, .trailing], 5) // Отступы от вертикальных краев
         }
         .padding(.top, 5.0) // Верхний отступ
@@ -35,6 +38,9 @@ struct ContainerGrid: View {
             startTimer()
             generateSudokuField()
         }
+        .onDisappear {
+            stopTimer()
+        }
     }
     
     func startTimer() {
@@ -43,9 +49,17 @@ struct ContainerGrid: View {
         }
     }
     
+    func stopTimer() {
+        gameTimer?.invalidate()
+        gameTimer = nil
+    }
+    
     func generateSudokuField() {
         let grid = Grid(len_area: len_area)
         let userField = grid.removeCells(difficulty: difficultyLevel)
+        
+        // Инициализация placedNumbersCount
+        placedNumbersCount = [:]
         
         for (rowIndex, row) in grid.field.enumerated() {
             for (colIndex, value) in row.enumerated() {
@@ -60,10 +74,14 @@ struct ContainerGrid: View {
                 if value != 0 {
                     numbersInCells[index] = value
                     cellStatus[index] = true // Значение заполнено автоматически
+                    
+                    // Увеличение счётчика для каждого числа
+                    if value != 0 {
+                        placedNumbersCount[value, default: 0] += 1
+                    }
                 }
             }
         }
-        print(cellStatus)
     }
 }
 
@@ -77,6 +95,7 @@ struct SudokuGrid: View {
     @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
     @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
+    @Binding var highlightedNumber: Int?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -85,7 +104,7 @@ struct SudokuGrid: View {
                 HStack(spacing: 0) {
                     ForEach(0..<len_area, id: \.self) { bigCol in
                         // Передаем параметры для каждой ячейки в блоке 3x3
-                        CellGrid(bigRow: bigRow, bigCol: bigCol, len_area: len_area, lastTappedIndex: $lastTappedIndex, selectedNumber: $selectedNumber, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells)
+                        CellGrid(bigRow: bigRow, bigCol: bigCol, len_area: len_area, lastTappedIndex: $lastTappedIndex, selectedNumber: $selectedNumber, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber)
                     }
                 }
             }
@@ -105,6 +124,7 @@ struct CellGrid: View {
     @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
     @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
+    @Binding var highlightedNumber: Int?
 
     var body: some View {
         VStack(spacing: 0) {
@@ -113,7 +133,7 @@ struct CellGrid: View {
                 HStack(spacing: 0) {
                     ForEach(0..<len_area, id: \.self) { column in
                         // Индекс ячейки вычисляется на основе её позиции в большой сетке
-                        Cell(lastTappedIndex: $lastTappedIndex, selectedNumber: $selectedNumber, numbersInCells: $numbersInCells, cellStatus: $cellStatus,cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, index: (((bigRow * len_area + row) * len_area * len_area) + (bigCol * len_area + column)))
+                        Cell(lastTappedIndex: $lastTappedIndex, selectedNumber: $selectedNumber, numbersInCells: $numbersInCells, cellStatus: $cellStatus,cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber, index: (((bigRow * len_area + row) * len_area * len_area) + (bigCol * len_area + column)))
                     }
                 }
             }
@@ -130,6 +150,7 @@ struct Cell: View {
     @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
     @Binding var cellColors: [Int: Color] // Цвет ячейки
     @Binding var allNumbersInCells: [Int: Int]
+    @Binding var highlightedNumber: Int?
     let index: Int // Индекс текущей ячейки
 
     var body: some View {
@@ -137,11 +158,17 @@ struct Cell: View {
             // Обновляем активную ячейку при нажатии
             if lastTappedIndex == index {
                 lastTappedIndex = nil // Если ячейка уже активна, деактивируем её
+                highlightedNumber = nil
             } else {
                 lastTappedIndex = index // Устанавливаем текущую ячейку как активную
-                
-                
+                // Обновляем выделенное число
+                if let number = numbersInCells[index] {
+                    highlightedNumber = number
+                } else {
+                    highlightedNumber = nil
+                }
             }
+            
         }) {
             RoundedRectangle(cornerRadius: 0) // Прямоугольник с нулевым радиусом скругления
                 .stroke(Color(red: 0.494, green: 0.498, blue: 0.578), lineWidth: 1) // Цвет и ширина границы ячейки
@@ -156,23 +183,28 @@ struct Cell: View {
     }
     
     func determineBackgroundColor(for index: Int, with number: Int?) -> Color {
-        // Проверяем, активна ли ячейка
-        if lastTappedIndex == index {
-            // Если ячейка активна, проверяем, пуста ли она
-            if number == nil {
-                // Ячейка пуста и активна, используем синий цвет
-                return Color(red: 0.753, green: 0.823, blue: 0.997)
-            } else if let correctNumber = allNumbersInCells[index] {
-                // Ячейка не пуста, проверяем правильность числа
-                return number == correctNumber ? Color(red: 0.753, green: 0.823, blue: 0.997) : Color(red: 0.996, green: 0.853, blue: 0.834)
-            } else {
-                // Нет данных о правильном числе, просто синий, если число не ноль
-                return Color(red: 0.753, green: 0.823, blue: 0.997)
+            // Проверяем, активна ли ячейка
+            if lastTappedIndex == index {
+                // Если ячейка активна, проверяем, пуста ли она
+                if number == nil {
+                    // Ячейка пуста и активна, используем синий цвет
+                    return Color(red: 0.753, green: 0.823, blue: 0.997)
+                } else if let correctNumber = allNumbersInCells[index] {
+                    // Ячейка не пуста, проверяем правильность числа
+                    return number == correctNumber ? Color(red: 0.753, green: 0.823, blue: 0.997) : Color(red: 0.996, green: 0.853, blue: 0.834)
+                } else {
+                    // Нет данных о правильном числе, просто синий, если число не ноль
+                    return Color(red: 0.753, green: 0.823, blue: 0.997)
+                }
             }
-        } else {
-            // Если ячейка не активна, возвращаем стандартный цвет
-            return cellColors[index] ?? Color.white
-        }
+            // Если ячейка содержит выделенное число
+            else if let highlightedNumber = highlightedNumber, number == highlightedNumber {
+                return Color(red: 0.776, green: 0.794, blue: 0.89)
+            }
+            // Стандартный цвет
+            else {
+                return cellColors[index] ?? Color.white
+            }
     }
 }
 
@@ -189,7 +221,7 @@ struct TopInfo: View {
                 .font(.caption)
                 .foregroundColor(Color(red: 0.494, green: 0.498, blue: 0.578))
             Spacer()
-            Text("Ошибки: \(errorCount)\\3")
+            Text("Ошибки: \(errorCount) из 3")
                 .font(.caption)
                 .foregroundColor(Color(red: 0.494, green: 0.498, blue: 0.578))
             Spacer()
@@ -208,125 +240,6 @@ struct TopInfo: View {
     }
 }
 
-
-struct EndGameView: View {
-    @Binding var isVisible: Bool
-    
-    var grid = Grid(len_area: 3)
-    @State private var isShowingDetailsView = false
-    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
-    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
-    @State private var cellColors: [Int: Color] = [:]
-    @State private var allNumbersInCells: [Int: Int] = [:]
-    @State private var errorCount: Int = 0
-    @State private var showEndGameAlert = false
-    @State private var showCompletionAlert = false
-    @State private var gameTime: TimeInterval = 0
-    @State private var gameTimer: Timer?
-
-    var body: some View {
-        VStack {
-            Text("Игра окончена")
-                .font(.title)
-                .padding()
-            
-            NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer)
-            } label: {
-                Text("Начать новую игру")
-                    .font(.callout)
-                    .foregroundColor(Color.white)
-                    .multilineTextAlignment(.center)
-                    .frame(width: 250, height: 30)
-                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
-                    .cornerRadius(50)
-            }
-            .navigationBarHidden(true)
-            
-            NavigationLink {
-                MenuScreen()
-            } label: {
-                Text("Вернуться на главный экран")
-                    .font(.callout)
-                    .foregroundColor(Color.white)
-                    .multilineTextAlignment(.center)
-                    .frame(width: 250, height: 30)
-                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
-                    .cornerRadius(50)
-            }
-        }
-        .frame(width: 350, height: 250)
-        .background(Color.white)
-        .cornerRadius(20)
-        .shadow(radius: 20)
-    }
-}
-
-struct CompletionAlertView: View {
-    @Binding var isVisible: Bool
-    var gameTime: TimeInterval
-    var difficultyLevel: String
-    
-    var grid = Grid(len_area: 3)
-    @State private var isShowingDetailsView = false
-    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
-    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
-    @State private var cellColors: [Int: Color] = [:]
-    @State private var allNumbersInCells: [Int: Int] = [:]
-    @State private var errorCount: Int = 0
-    @State private var showEndGameAlert = false
-    @State private var showCompletionAlert = false
-    @State private var newGameTime: TimeInterval = 0
-    @State private var gameTimer: Timer?
-
-    var body: some View {
-        VStack {
-            Text("Поздравляем!")
-                .font(.title)
-                .padding()
-            Text("Вы успешно завершили игру.")
-                .padding()
-            Text("Время: \(formatTime(gameTime))")
-            Text("Сложность: \(difficultyLevel)")
-                .padding()
-            
-            NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $newGameTime, gameTimer: $gameTimer)
-            } label: {
-                Text("Начать новую игру")
-                    .font(.callout)
-                    .foregroundColor(Color.white)
-                    .multilineTextAlignment(.center)
-                    .frame(width: 250, height: 30)
-                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
-                    .cornerRadius(50)
-            }
-            .navigationBarHidden(true)
-            
-            NavigationLink {
-                MenuScreen()
-            } label: {
-                Text("Вернуться на главный экран")
-                    .font(.callout)
-                    .foregroundColor(Color.white)
-                    .multilineTextAlignment(.center)
-                    .frame(width: 250, height: 30)
-                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
-                    .cornerRadius(50)
-            }
-        }
-        .frame(width: 350, height: 350)
-        .background(Color.white)
-        .cornerRadius(20)
-        .shadow(radius: 20)
-    }
-    
-    private func formatTime(_ time: TimeInterval) -> String {
-        let minutes = Int(time) / 60
-        let seconds = Int(time) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-}
 
 //struct eScreen: View {
 //    let len_area: Int
