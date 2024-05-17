@@ -14,8 +14,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "placeNumber(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,13 +78,13 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "208"
-            endingLineNumber = "208"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
                <Location
-                  uuid = "3A63361C-15BD-43CF-BC40-510954AD5D60 - c72b88ad372667d2"
+                  uuid = "3A63361C-15BD-43CF-BC40-510954AD5D60 - c72b88ad37266790"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -94,11 +94,11 @@
                   urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208">
+                  startingLineNumber = "210"
+                  endingLineNumber = "210">
                </Location>
                <Location
-                  uuid = "3A63361C-15BD-43CF-BC40-510954AD5D60 - 8105162685270533"
+                  uuid = "3A63361C-15BD-43CF-BC40-510954AD5D60 - 8105162685270571"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -108,8 +108,8 @@
                   urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "208"
-                  endingLineNumber = "208">
+                  startingLineNumber = "210"
+                  endingLineNumber = "210">
                </Location>
             </Locations>
          </BreakpointContent>

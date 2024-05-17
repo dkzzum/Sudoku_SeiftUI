@@ -26,9 +26,11 @@ struct NumberPicker: View {
     @Binding var showCompletionAlert: Bool
     @Binding var gameTime: TimeInterval
     @Binding var gameTimer: Timer?
-    @Binding var highlightedNumber: Int?
-    @State private var actionStack: [Action] = []
+    @Binding var highlightedNumber: Int?    
     @Binding var placedNumbersCount: [Int: Int]
+
+    @State private var actionStack: [Action] = []
+    @State private var activeSquareIndices: Set<Int> = [] 
 
     var body: some View {
         VStack(spacing: 35.0) {
