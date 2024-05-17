@@ -14,8 +14,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -30,56 +30,10 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "172"
-            endingLineNumber = "172"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "unknown"
             landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4075DFD4-C574-43EC-98D8-2596B49EC53B"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sudoku/GameScreen/ButtonPanel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "4075DFD4-C574-43EC-98D8-2596B49EC53B - 6548c5018efecb4a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int) -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(Sudoku.ShowPanel, Sudoku.ShowNum)&gt; in Sudoku.NumberPicker.body.getter : some"
-                  moduleName = "Sudoku"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42">
-               </Location>
-               <Location
-                  uuid = "4075DFD4-C574-43EC-98D8-2596B49EC53B - 6548c5018efecb4a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int) -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(Sudoku.ShowPanel, Sudoku.ShowNum)&gt; in Sudoku.NumberPicker.body.getter : some"
-                  moduleName = "Sudoku"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -92,8 +46,8 @@
             filePath = "Sudoku/GameScreen/SudokuGrid.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "generateSudokuField()"
             landmarkType = "7">
          </BreakpointContent>

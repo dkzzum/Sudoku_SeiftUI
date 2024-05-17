@@ -73,20 +73,23 @@ struct TextAndText: Identifiable {
 struct BigCenterButton: View {
     var grid = Grid(len_area: 3)
     @State private var isShowingDetailsView = false
-    @State var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
-    @State var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
-    @State var cellColors: [Int: Color] = [:]
-    @State var allNumbersInCells: [Int: Int] = [:]
+    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
+    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @State private var cellColors: [Int: Color] = [:]
+    @State private var allNumbersInCells: [Int: Int] = [:]
+    @State private var errorCount: Int = 0
+    @State private var showEndGameAlert = false
+    @State private var showCompletionAlert = false
+    @State private var gameTime: TimeInterval = 0
+    @State private var gameTimer: Timer?
+    @State private var highlightedNumber: Int? = nil
     
     var body: some View {
         NavigationView {
             NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells)
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer)
             } label: {
                 Text("Начать игру")
-//                Button("Steart gmae") {
-//                    self.isShowingDetailsView = true
-//                }
                     .font(.title)
                     .foregroundColor(Color.white)
                     .multilineTextAlignment(.center)

@@ -15,9 +15,10 @@ struct ContainerGrid: View {
     @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
     @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
+    @Binding var errorCount: Int // Количество ошибок
+    @Binding var showEndGameAlert: Bool
     
     @State private var gameTime: TimeInterval = 0 // Время игры
-    @State private var errorCount: Int = 0 // Количество ошибок
     @State private var difficultyLevel: String = "Easy" // Уровень сложности
     
     var body: some View {
@@ -138,6 +139,8 @@ struct Cell: View {
                 lastTappedIndex = nil // Если ячейка уже активна, деактивируем её
             } else {
                 lastTappedIndex = index // Устанавливаем текущую ячейку как активную
+                
+                
             }
         }) {
             RoundedRectangle(cornerRadius: 0) // Прямоугольник с нулевым радиусом скругления
@@ -176,9 +179,9 @@ struct Cell: View {
 
 
 struct TopInfo: View {
-    @Binding var gameTime: TimeInterval // Время игры
-    @Binding var errorCount: Int // Количество ошибок
-    @Binding var difficultyLevel: String // Уровень сложности
+    @Binding var gameTime: TimeInterval
+    @Binding var errorCount: Int
+    @Binding var difficultyLevel: String
 
     var body: some View {
         HStack {
@@ -186,7 +189,7 @@ struct TopInfo: View {
                 .font(.caption)
                 .foregroundColor(Color(red: 0.494, green: 0.498, blue: 0.578))
             Spacer()
-            Text("Ошибки: \(errorCount)")
+            Text("Ошибки: \(errorCount)\\3")
                 .font(.caption)
                 .foregroundColor(Color(red: 0.494, green: 0.498, blue: 0.578))
             Spacer()
@@ -197,7 +200,7 @@ struct TopInfo: View {
         .padding(.vertical, 5.0)
         .frame(width: 300.0)
     }
-    
+
     func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
@@ -206,23 +209,148 @@ struct TopInfo: View {
 }
 
 
+struct EndGameView: View {
+    @Binding var isVisible: Bool
+    
+    var grid = Grid(len_area: 3)
+    @State private var isShowingDetailsView = false
+    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
+    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @State private var cellColors: [Int: Color] = [:]
+    @State private var allNumbersInCells: [Int: Int] = [:]
+    @State private var errorCount: Int = 0
+    @State private var showEndGameAlert = false
+    @State private var showCompletionAlert = false
+    @State private var gameTime: TimeInterval = 0
+    @State private var gameTimer: Timer?
+
+    var body: some View {
+        VStack {
+            Text("Игра окончена")
+                .font(.title)
+                .padding()
+            
+            NavigationLink {
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer)
+            } label: {
+                Text("Начать новую игру")
+                    .font(.callout)
+                    .foregroundColor(Color.white)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 250, height: 30)
+                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
+                    .cornerRadius(50)
+            }
+            .navigationBarHidden(true)
+            
+            NavigationLink {
+                MenuScreen()
+            } label: {
+                Text("Вернуться на главный экран")
+                    .font(.callout)
+                    .foregroundColor(Color.white)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 250, height: 30)
+                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
+                    .cornerRadius(50)
+            }
+        }
+        .frame(width: 350, height: 250)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 20)
+    }
+}
+
+struct CompletionAlertView: View {
+    @Binding var isVisible: Bool
+    var gameTime: TimeInterval
+    var difficultyLevel: String
+    
+    var grid = Grid(len_area: 3)
+    @State private var isShowingDetailsView = false
+    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
+    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @State private var cellColors: [Int: Color] = [:]
+    @State private var allNumbersInCells: [Int: Int] = [:]
+    @State private var errorCount: Int = 0
+    @State private var showEndGameAlert = false
+    @State private var showCompletionAlert = false
+    @State private var newGameTime: TimeInterval = 0
+    @State private var gameTimer: Timer?
+
+    var body: some View {
+        VStack {
+            Text("Поздравляем!")
+                .font(.title)
+                .padding()
+            Text("Вы успешно завершили игру.")
+                .padding()
+            Text("Время: \(formatTime(gameTime))")
+            Text("Сложность: \(difficultyLevel)")
+                .padding()
+            
+            NavigationLink {
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $newGameTime, gameTimer: $gameTimer)
+            } label: {
+                Text("Начать новую игру")
+                    .font(.callout)
+                    .foregroundColor(Color.white)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 250, height: 30)
+                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
+                    .cornerRadius(50)
+            }
+            .navigationBarHidden(true)
+            
+            NavigationLink {
+                MenuScreen()
+            } label: {
+                Text("Вернуться на главный экран")
+                    .font(.callout)
+                    .foregroundColor(Color.white)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 250, height: 30)
+                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
+                    .cornerRadius(50)
+            }
+        }
+        .frame(width: 350, height: 350)
+        .background(Color.white)
+        .cornerRadius(20)
+        .shadow(radius: 20)
+    }
+    
+    private func formatTime(_ time: TimeInterval) -> String {
+        let minutes = Int(time) / 60
+        let seconds = Int(time) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+}
+
 //struct eScreen: View {
 //    let len_area: Int
-//    @State private var selectedNumber: Int?
-//    @State private var lastTappedIndex: Int?
-//    @State private var numbersInCells: [Int: Int] = [:]  // Инициализация пустого словаря
+//    @State var gameTime: TimeInterval = 0  // Инициализация пустого словаря
+//    @Binding var nnn: Bool
 //
 //    var body: some View {
 //        VStack() {
-//            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells)
-//            
+//            CompletionAlertView(isVisible: $nnn, gameTime: gameTime, difficultyLevel: "East")
 //        }
-//        .toolbar(.hidden, for: .tabBar)
-//        .frame(maxWidth: .infinity)
+////        .toolbar(.hidden, for: .tabBar)
+////        .frame(maxWidth: .infinity)
 //    }
 //}
-
-
+//
+//struct scree: View {
+//    var len_area: Int = 3
+//    @State var nnn: Bool = true
+//    var body: some View {
+//        eScreen(len_area: len_area, nnn: $nnn)
+//    }
+//}
+//
+//
 //#Preview {
-//    eScreen(len_area: 3)
+//    scree(len_area: 3)
 //}

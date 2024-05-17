@@ -19,8 +19,13 @@ struct NumberPicker: View {
     @Binding var lastTappedIndex: Int?
     @Binding var numbersInCells: [Int: Int]
     @Binding var cellStatus: [Int: Bool]
-    @Binding var cellColors: [Int: Color] // Цвет ячейки
+    @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
+    @Binding var errorCount: Int // Привязка к счётчику ошибок
+    @Binding var showEndGameAlert: Bool
+    @Binding var showCompletionAlert: Bool
+    @Binding var gameTime: TimeInterval
+    @Binding var gameTimer: Timer?
     @State private var actionStack: [Action] = []
 
     var body: some View {
@@ -30,63 +35,83 @@ struct NumberPicker: View {
                 if let currentIndex = lastTappedIndex {
                     // Проверяем, можно ли изменить число в ячейке
                     if cellStatus[currentIndex] == true { return } // Если ячейка заполнена автоматически, ничего не делаем
-
+                    
                     // Сохраняем текущее состояние для отмены
                     let previousNumber = numbersInCells[currentIndex]
                     actionStack.append(Action(type: .place, index: currentIndex, previousValue: previousNumber))
 
                     // Обновляем число только в активной ячейке
                     numbersInCells[currentIndex] = number // Устанавливаем выбранное число в активной ячейке
-
-                    // Проверка правильности числа
-                    if let correctNumber = allNumbersInCells[currentIndex], correctNumber == number {
-                        cellColors[currentIndex] = Color.white // Правильное число
-                    } else {
-                        cellColors[currentIndex] = Color(red: 0.996, green: 0.853, blue: 0.834) // Неправильное число
+                    
+                    if let correctNumber = allNumbersInCells[currentIndex] {
+                        if number != correctNumber {
+                            errorCount += 1 // Увеличиваем счётчик ошибок, если число неправильное
+                            if errorCount >= 3 {
+                                showEndGameAlert = true
+                            }
+                            cellColors[currentIndex] = Color(red: 0.996, green: 0.853, blue: 0.834)
+                        } else {
+                            cellColors[currentIndex] = Color.white
+                        }
+                    }
+                    
+                    // Проверка завершения игры
+                    if numbersInCells.count == allNumbersInCells.count {
+                        let allCorrect = numbersInCells.allSatisfy { index, number in
+                            allNumbersInCells[index] == number
+                        }
+                        if allCorrect {
+                            showCompletionAlert = true
+                            stopTimer() // Остановка таймера
+                        }
                     }
                 }
-                selectedNumber = number // Обновляем выбранное число
+                selectedNumber = number
             })
         }
         .frame(width: 360.0, height: 125.0)
         .background(Color(red: 0.965, green: 0.973, blue: 0.994))
         .cornerRadius(10)
     }
-
-    // Функция для удаления числа из активной ячейки
-    private func eraseNumber() {
-        if let currentIndex = lastTappedIndex, let previousNumber = numbersInCells[currentIndex] {
-            // Проверяем, можно ли стереть число в ячейке
-            if cellStatus[currentIndex] == true { return } // Если ячейка заполнена автоматически, ничего не делаем
-
-            // Сохраняем текущее состояние для отмены
-            actionStack.append(Action(type: .erase, index: currentIndex, previousValue: previousNumber))
-
-            numbersInCells[currentIndex] = nil // Удаляем число из активной ячейки
-            cellColors[currentIndex] = Color.white // Сбрасываем цвет ячейки
-        }
+    
+    func stopTimer() {
+        gameTimer?.invalidate()
+        gameTimer = nil
     }
 
-    // Функция для отмены последнего действия
-    private func undoLastAction() {
-        guard let lastAction = actionStack.popLast() else { return }
+    private func eraseNumber() {
+          if let currentIndex = lastTappedIndex, let previousNumber = numbersInCells[currentIndex] {
+              // Проверяем, можно ли стереть число в ячейке
+              if cellStatus[currentIndex] == true { return } // Если ячейка заполнена автоматически, ничего не делаем
 
-        lastTappedIndex = lastAction.index // Устанавливаем активную ячейку на ту, где произошло последнее действие
+              // Сохраняем текущее состояние для отмены
+              actionStack.append(Action(type: .erase, index: currentIndex, previousValue: previousNumber))
 
-        switch lastAction.type {
-        case .place:
-            if let previousValue = lastAction.previousValue {
-                numbersInCells[lastAction.index] = previousValue
-            } else {
-                numbersInCells.removeValue(forKey: lastAction.index)
-            }
-            cellColors[lastAction.index] = Color.white // Сбрасываем цвет ячейки при отмене действия
-        case .erase:
-            if let previousValue = lastAction.previousValue {
-                numbersInCells[lastAction.index] = previousValue
-                cellColors[lastAction.index] = Color.white // Сбрасываем цвет ячейки при отмене действия
-            }
-        }
+              numbersInCells[currentIndex] = nil // Удаляем число из активной ячейки
+              cellColors[currentIndex] = Color.white // Сбрасываем цвет ячейки
+          }
+      }
+
+      // Функция для отмены последнего действия
+      private func undoLastAction() {
+          guard let lastAction = actionStack.popLast() else { return }
+
+          lastTappedIndex = lastAction.index // Устанавливаем активную ячейку на ту, где произошло последнее действие
+
+          switch lastAction.type {
+          case .place:
+              if let previousValue = lastAction.previousValue {
+                  numbersInCells[lastAction.index] = previousValue
+              } else {
+                  numbersInCells.removeValue(forKey: lastAction.index)
+              }
+              cellColors[lastAction.index] = Color.white // Сбрасываем цвет ячейки при отмене действия
+          case .erase:
+              if let previousValue = lastAction.previousValue {
+                  numbersInCells[lastAction.index] = previousValue
+                  cellColors[lastAction.index] = Color.white // Сбрасываем цвет ячейки при отмене действия
+              }
+          }
     }
 }
 
