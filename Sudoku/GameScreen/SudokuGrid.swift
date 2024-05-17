@@ -8,33 +8,31 @@
 import SwiftUI
 
 struct ContainerGrid: View {
-    let len_area: Int // Размер большой области
-    @Binding var selectedNumber: Int? // Привязка к выбранному числу
-    @Binding var lastTappedIndex: Int? // Привязка к индексу последней выбранной ячейки
-    @Binding var numbersInCells: [Int: Int] // Привязка к словарю чисел в ячейках
-    @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    let len_area: Int
+    @Binding var selectedNumber: Int?
+    @Binding var lastTappedIndex: Int?
+    @Binding var numbersInCells: [Int: Int]
+    @Binding var cellStatus: [Int: Bool]
     @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
-    @Binding var errorCount: Int // Количество ошибок
+    @Binding var errorCount: Int
     @Binding var showEndGameAlert: Bool
     @Binding var highlightedNumber: Int?
     @Binding var gameTimer: Timer?
     @Binding var placedNumbersCount: [Int: Int]
 
-    @State private var gameTime: TimeInterval = 0 // Время игры
-    @State private var difficultyLevel: String = "Easy" // Уровень сложности
+    @State private var gameTime: TimeInterval = 0
+    @State private var difficultyLevel: String = "Easy"
     @State private var activeSquareIndices: Set<Int> = []
-    
+
     var body: some View {
         VStack {
             TopInfo(gameTime: $gameTime, errorCount: $errorCount, difficultyLevel: $difficultyLevel)
             SudokuGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber, activeSquareIndices: $activeSquareIndices)
-                .padding([.leading, .trailing], 5) // Отступы от вертикальных краев
         }
-        .padding(.top, 5.0) // Верхний отступ
-        .padding([.leading, .bottom, .trailing], 9.0) // Отступы слева, снизу и справа
-        .background(Color(red: 0.966, green: 0.973, blue: 0.997)) // Цвет фона контейнера
-        .cornerRadius(10) // Скругленные углы контейнера
+        .padding()
+        .background(Color(red: 0.966, green: 0.973, blue: 0.997))
+        .cornerRadius(10)
         .onAppear {
             startTimer()
             generateSudokuField()
@@ -43,40 +41,38 @@ struct ContainerGrid: View {
             stopTimer()
         }
     }
-    
+
     func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             gameTime += 1
         }
     }
-    
+
     func stopTimer() {
         gameTimer?.invalidate()
         gameTimer = nil
     }
-    
+
     func generateSudokuField() {
         let grid = Grid(len_area: len_area)
         let userField = grid.removeCells(difficulty: difficultyLevel)
-        
-        // Инициализация placedNumbersCount
+
         placedNumbersCount = [:]
-        
+
         for (rowIndex, row) in grid.field.enumerated() {
             for (colIndex, value) in row.enumerated() {
                 let index = rowIndex * len_area * len_area + colIndex
                 allNumbersInCells[index] = value
             }
         }
-        
+
         for (rowIndex, row) in userField.enumerated() {
             for (colIndex, value) in row.enumerated() {
                 let index = rowIndex * len_area * len_area + colIndex
                 if value != 0 {
                     numbersInCells[index] = value
-                    cellStatus[index] = true // Значение заполнено автоматически
-                    
-                    // Увеличение счётчика для каждого числа
+                    cellStatus[index] = true
+
                     if value != 0 {
                         placedNumbersCount[value, default: 0] += 1
                     }
@@ -86,14 +82,12 @@ struct ContainerGrid: View {
     }
 }
 
-
-
 struct SudokuGrid: View {
-    let len_area: Int // Размер большой области (например, 3 для судоку 9x9)
-    @Binding var selectedNumber: Int? // Привязка к выбранному числу
-    @Binding var lastTappedIndex: Int? // Привязка к индексу последней выбранной ячейки
-    @Binding var numbersInCells: [Int: Int] // Привязка к словарю чисел в ячейках
-    @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    let len_area: Int
+    @Binding var selectedNumber: Int?
+    @Binding var lastTappedIndex: Int?
+    @Binding var numbersInCells: [Int: Int]
+    @Binding var cellStatus: [Int: Bool]
     @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
     @Binding var highlightedNumber: Int?
@@ -101,30 +95,26 @@ struct SudokuGrid: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Создаем сетку из больших блоков 3x3
             ForEach(0..<len_area, id: \.self) { bigRow in
                 HStack(spacing: 0) {
                     ForEach(0..<len_area, id: \.self) { bigCol in
-                        // Передаем параметры для каждой ячейки в блоке 3x3
                         CellGrid(bigRow: bigRow, bigCol: bigCol, len_area: len_area, lastTappedIndex: $lastTappedIndex, selectedNumber: $selectedNumber, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber, activeSquareIndices: $activeSquareIndices)
                     }
                 }
             }
         }
-        .frame(width: 330, height: 330)
-        .border(Color.black, width: 2) // Граница вокруг всей сетки
+        .border(Color.black, width: 2)
     }
 }
 
-
 struct CellGrid: View {
-    let bigRow: Int // Номер строки в большом блоке 3x3
-    let bigCol: Int // Номер столбца в большом блоке 3x3
-    let len_area: Int // Размер большой области
-    @Binding var lastTappedIndex: Int? // Привязка к индексу последней выбранной ячейки
-    @Binding var selectedNumber: Int? // Привязка к выбранному числу
-    @Binding var numbersInCells: [Int: Int] // Привязка к словарю чисел в ячейках
-    @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    let bigRow: Int
+    let bigCol: Int
+    let len_area: Int
+    @Binding var lastTappedIndex: Int?
+    @Binding var selectedNumber: Int?
+    @Binding var numbersInCells: [Int: Int]
+    @Binding var cellStatus: [Int: Bool]
     @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
     @Binding var highlightedNumber: Int?
@@ -132,127 +122,94 @@ struct CellGrid: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Создаем сетку из ячеек внутри блока 3x3
             ForEach(0..<len_area, id: \.self) { row in
                 HStack(spacing: 0) {
                     ForEach(0..<len_area, id: \.self) { column in
-                        // Индекс ячейки вычисляется на основе её позиции в большой сетке
-                        Cell(len_area: len_area, lastTappedIndex: $lastTappedIndex, selectedNumber: $selectedNumber, numbersInCells: $numbersInCells, cellStatus: $cellStatus,cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber, activeSquareIndices: $activeSquareIndices, index: (((bigRow * len_area + row) * len_area * len_area) + (bigCol * len_area + column)))
+                        Cell(len_area: len_area, lastTappedIndex: $lastTappedIndex, selectedNumber: $selectedNumber, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber, activeSquareIndices: $activeSquareIndices, index: (((bigRow * len_area + row) * len_area * len_area) + (bigCol * len_area + column)))
                     }
                 }
             }
         }
-        .border(Color.black, width: 1) // Граница вокруг блока 3x3
+        .border(Color.black, width: 1)
     }
 }
 
-
 struct Cell: View {
     let len_area: Int
-    @Binding var lastTappedIndex: Int? // Привязка к индексу последней выбранной ячейки
-    @Binding var selectedNumber: Int? // Привязка к выбранному числу
-    @Binding var numbersInCells: [Int: Int] // Привязка к словарю чисел в ячейках
-    @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
-    @Binding var cellColors: [Int: Color] // Цвет ячейки
+    @Binding var lastTappedIndex: Int?
+    @Binding var selectedNumber: Int?
+    @Binding var numbersInCells: [Int: Int]
+    @Binding var cellStatus: [Int: Bool]
+    @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
     @Binding var highlightedNumber: Int?
     @Binding var activeSquareIndices: Set<Int>
-    let index: Int // Индекс текущей ячейки
+    let index: Int
 
     var body: some View {
         Button(action: {
-            // Обновляем активную ячейку при нажатии
-//            if lastTappedIndex == index {
-////                lastTappedIndex = nil // Если ячейка уже активна, деактивируем её
-//                highlightedNumber = nil
-//                activeSquareIndices.removeAll() // Очистить активные индексы квадрата
-//            } else {
-                lastTappedIndex = index // Устанавливаем текущую ячейку как активную
-                // Обновляем выделенное число
-                if let number = numbersInCells[index] {
-                    highlightedNumber = number
-                } else {
-                    highlightedNumber = nil
-                }
-                // Обновляем индексы активного квадрата 3x3
-                updateActiveSquareIndices(for: index)
-//            }
+            lastTappedIndex = index
+            highlightedNumber = numbersInCells[index]
+            updateActiveSquareIndices(for: index)
         }) {
-            RoundedRectangle(cornerRadius: 0) // Прямоугольник с нулевым радиусом скругления
-                .stroke(Color(red: 0.494, green: 0.498, blue: 0.578), lineWidth: 1) // Цвет и ширина границы ячейки
-                .frame(width: 36.3, height: 36.3) // Размер ячейки
-                .background(determineBackgroundColor(for: index, with: numbersInCells[index])) // Цвет фона для активной и неактивной ячейки
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(Color(red: 0.494, green: 0.498, blue: 0.578), lineWidth: 1)
+                .background(determineBackgroundColor(for: index, with: numbersInCells[index]))
+                .frame(width: 36.3, height: 36.3)
                 .overlay(
                     Text(numbersInCells[index] != nil ? "\(numbersInCells[index]!)" : "")
-                        .font(.title) // Устанавливаем большой шрифт для числа
-                        .foregroundColor(cellStatus[index] == true ? Color.black : Color(red: 0.263, green: 0.367, blue: 0.658)) // Цвет текста
+                        .font(.title)
+                        .foregroundColor(cellStatus[index] == true ? Color.black : Color(red: 0.263, green: 0.367, blue: 0.658))
                 )
         }
     }
-    
+
     func updateActiveSquareIndices(for index: Int) {
         let row = index / (len_area * len_area)
         let col = index % (len_area * len_area)
         let startRow = (row / len_area) * len_area
         let startCol = (col / len_area) * len_area
         activeSquareIndices.removeAll()
-        
-        // Добавляем ячейки из активного квадрата 3x3
+
         for r in startRow..<startRow + len_area {
             for c in startCol..<startCol + len_area {
                 let squareIndex = r * len_area * len_area + c
                 activeSquareIndices.insert(squareIndex)
             }
         }
-        
-        // Добавляем ячейки по вертикали
+
         for r in 0..<len_area * len_area {
             let verticalIndex = r * len_area * len_area + col
             activeSquareIndices.insert(verticalIndex)
         }
-        
-        // Добавляем ячейки по горизонтали
+
         for c in 0..<len_area * len_area {
             let horizontalIndex = row * len_area * len_area + c
             activeSquareIndices.insert(horizontalIndex)
         }
     }
-        
+
     func determineBackgroundColor(for index: Int, with number: Int?) -> Color {
-            // Проверяем, активна ли ячейка
-            if lastTappedIndex == index {
-                // Если ячейка активна, проверяем, пуста ли она
-                if number == nil {
-                    // Ячейка пуста и активна, используем синий цвет
-                    return Color(red: 0.753, green: 0.823, blue: 0.997)
-                } else if let correctNumber = allNumbersInCells[index] {
-                    // Ячейка не пуста, проверяем правильность числа
-                    return number == correctNumber ? Color(red: 0.753, green: 0.823, blue: 0.997) : Color(red: 0.996, green: 0.853, blue: 0.834)
-                } else {
-                    // Нет данных о правильном числе, просто синий, если число не ноль
-                    return Color(red: 0.753, green: 0.823, blue: 0.997)
-                }
+        if lastTappedIndex == index {
+            if number == nil {
+                return Color(red: 0.753, green: 0.823, blue: 0.997)
+            } else if let correctNumber = allNumbersInCells[index] {
+                return number == correctNumber ? Color(red: 0.753, green: 0.823, blue: 0.997) : Color(red: 0.996, green: 0.853, blue: 0.834)
+            } else {
+                return Color(red: 0.753, green: 0.823, blue: 0.997)
             }
-            // Если ячейка находится в активном квадрате 3x3
-            else if activeSquareIndices.contains(index) {
-                // Если ячейка с неправильным числом (красная), оставляем её красной
-                if let currentColor = cellColors[index], currentColor == Color(red: 0.996, green: 0.853, blue: 0.834) {
-                    return currentColor
-                }
-                return Color(red: 0.902, green: 0.916, blue: 0.96)
+        } else if activeSquareIndices.contains(index) {
+            if let currentColor = cellColors[index], currentColor == Color(red: 0.996, green: 0.853, blue: 0.834) {
+                return currentColor
             }
-            // Если ячейка содержит выделенное число
-            else if let highlightedNumber = highlightedNumber, number == highlightedNumber {
-                return Color(red: 0.777, green: 0.794, blue: 0.883)
-            }
-            // Стандартный цвет
-            else {
-                return cellColors[index] ?? Color.white
-            }
+            return Color(red: 0.902, green: 0.916, blue: 0.96)
+        } else if let highlightedNumber = highlightedNumber, number == highlightedNumber {
+            return Color(red: 0.777, green: 0.794, blue: 0.883)
+        } else {
+            return cellColors[index] ?? Color.white
         }
+    }
 }
-
-
 
 struct TopInfo: View {
     @Binding var gameTime: TimeInterval
@@ -283,6 +240,7 @@ struct TopInfo: View {
         return String(format: "%02d:%02d", minutes, seconds)
     }
 }
+
 
 
 //struct eScreen: View {

@@ -9,11 +9,11 @@ import SwiftUI
 
 struct GameScreen: View {
     let len_area: Int
-    @State private var selectedNumber: Int? // Выбранное пользователем число
-    @State private var lastTappedIndex: Int? // Индекс последней выбранной ячейки
-    @Binding var numbersInCells: [Int: Int] // Словарь для хранения чисел в ячейках
-    @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
-    @Binding var cellColors: [Int: Color] // Цвет ячейки
+    @State private var selectedNumber: Int?
+    @State private var lastTappedIndex: Int?
+    @Binding var numbersInCells: [Int: Int]
+    @Binding var cellStatus: [Int: Bool]
+    @Binding var cellColors: [Int: Color]
     @Binding var allNumbersInCells: [Int: Int]
     @Binding var errorCount: Int
     @Binding var showEndGameAlert: Bool
@@ -24,39 +24,45 @@ struct GameScreen: View {
     @Binding var placedNumbersCount: [Int: Int]
 
     var body: some View {
-        VStack(spacing: 30) {
-            TopPanel() // Верхняя панель с информацией
-            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount)
-                .frame(width: 360.0) // Устанавливаем ширину контейнера для сетки
-            NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
-                .frame(width: 360.0) // Устанавливаем ширину панели с цифрами
-        }
-        .overlay(
-            showEndGameAlert ? EndGameView(isVisible: $showEndGameAlert) : nil
-        )
-        .overlay(
-                    showCompletionAlert ? AnyView(CompletionAlertView(isVisible: $showCompletionAlert, gameTime: gameTime, difficultyLevel: "Easy")) : nil
-                )
-        .toolbar(.hidden, for: .tabBar) // Скрываем нижнюю панель инструментов
-        .frame(maxWidth: .infinity) // Центрируем содержимое
-        .onAppear {
-            startTimer()
-        }
-        .onDisappear {
-            stopTimer()
-            numbersInCells.removeAll()
-            cellStatus.removeAll()
-            cellColors.removeAll()
-            allNumbersInCells.removeAll()
-            highlightedNumber = nil
-            selectedNumber = nil
-            lastTappedIndex = nil
+        GeometryReader { geometry in
+            VStack(alignment: .center, spacing: 30) {
+                TopPanel()
+                    .padding(.bottom, 30.0)
+                    .padding(.top, 30.0)
+                ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount)
+                    .padding(.top, 30.0)
+                    .padding(.bottom, 60.0)
+                    .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9)
+                NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+                    .padding(.top, 30.0)
+                    .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.1)
+            }
+            .overlay(
+                showEndGameAlert ? EndGameView(isVisible: $showEndGameAlert) : nil
+            )
+            .overlay(
+                showCompletionAlert ? AnyView(CompletionAlertView(isVisible: $showCompletionAlert, gameTime: gameTime, difficultyLevel: "Easy")) : nil
+            )
+            .toolbar(.hidden, for: .tabBar)
+            .frame(maxWidth: .infinity)
+            .onAppear {
+                startTimer()
+            }
+            .onDisappear {
+                stopTimer()
+                numbersInCells.removeAll()
+                cellStatus.removeAll()
+                cellColors.removeAll()
+                allNumbersInCells.removeAll()
+                highlightedNumber = nil
+                selectedNumber = nil
+                lastTappedIndex = nil
+            }
         }
     }
-    
-    
+
     private func startTimer() {
-        gameTimer?.invalidate() // Остановите текущий таймер, если он существует
+        gameTimer?.invalidate()
         gameTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             gameTime += 1
         }
@@ -68,16 +74,12 @@ struct GameScreen: View {
     }
 
     private func startNewGame() {
-        // Реализуйте логику для начала новой игры
         stopTimer()
         startTimer()
-        // Сбросьте другие состояния игры
     }
 
     private func exitToMainMenu() {
-        // Реализуйте логику для возврата на главный экран
         stopTimer()
-        // Вернуться на главный экран
     }
 }
 

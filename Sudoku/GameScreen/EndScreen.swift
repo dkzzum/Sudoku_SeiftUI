@@ -9,11 +9,11 @@ import SwiftUI
 
 struct EndGameView: View {
     @Binding var isVisible: Bool
-    
+
     var grid = Grid(len_area: 3)
     @State private var isShowingDetailsView = false
-    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
-    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @State private var numbersInCells: [Int: Int] = [:]
+    @State private var cellStatus: [Int: Bool] = [:]
     @State private var cellColors: [Int: Color] = [:]
     @State private var allNumbersInCells: [Int: Int] = [:]
     @State private var errorCount: Int = 0
@@ -29,9 +29,14 @@ struct EndGameView: View {
             Text("Игра окончена")
                 .font(.title)
                 .padding()
-            
+
             NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells,
+                           cellStatus: $cellStatus, cellColors: $cellColors,
+                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
+                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
+                           gameTime: $gameTime, gameTimer: $gameTimer,
+                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
             } label: {
                 Text("Начать новую игру")
                     .font(.callout)
@@ -42,7 +47,7 @@ struct EndGameView: View {
                     .cornerRadius(50)
             }
             .navigationBarHidden(true)
-            
+
             NavigationLink {
                 MenuScreen()
             } label: {
@@ -66,11 +71,11 @@ struct CompletionAlertView: View {
     @Binding var isVisible: Bool
     var gameTime: TimeInterval
     var difficultyLevel: String
-    
+
     var grid = Grid(len_area: 3)
     @State private var isShowingDetailsView = false
-    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
-    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @State private var numbersInCells: [Int: Int] = [:]
+    @State private var cellStatus: [Int: Bool] = [:]
     @State private var cellColors: [Int: Color] = [:]
     @State private var allNumbersInCells: [Int: Int] = [:]
     @State private var errorCount: Int = 0
@@ -91,9 +96,14 @@ struct CompletionAlertView: View {
             Text("Время: \(formatTime(gameTime))")
             Text("Сложность: \(difficultyLevel)")
                 .padding()
-            
+
             NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $newGameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells,
+                           cellStatus: $cellStatus, cellColors: $cellColors,
+                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
+                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
+                           gameTime: $newGameTime, gameTimer: $gameTimer,
+                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
             } label: {
                 Text("Начать новую игру")
                     .font(.callout)
@@ -104,7 +114,7 @@ struct CompletionAlertView: View {
                     .cornerRadius(50)
             }
             .navigationBarHidden(true)
-            
+
             NavigationLink {
                 MenuScreen()
             } label: {
@@ -122,11 +132,12 @@ struct CompletionAlertView: View {
         .cornerRadius(20)
         .shadow(radius: 20)
     }
-    
+
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
 }
+
 
