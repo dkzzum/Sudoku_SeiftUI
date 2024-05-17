@@ -14,8 +14,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -39,109 +39,63 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "466326D0-61F1-4E18-923B-2790FA504209"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sudoku/GameScreen/ButtonPanel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "eraseNumber()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "709FFA38-D1BA-4021-984A-C9CCA4036D6D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sudoku/GameScreen/SudokuGrid.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7468E23A-E4A2-4CE3-ADBA-CCEDAD43F696"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Sudoku/GameScreen/SudokuGrid.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "generateSudokuField()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4ECA4765-72ED-47F7-953B-C65E9C301272"
+            uuid = "4075DFD4-C574-43EC-98D8-2596B49EC53B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Sudoku/GameScreen/ButtonPanel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "eraseNumber()"
-            landmarkType = "7">
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "body"
+            landmarkType = "24">
             <Locations>
                <Location
-                  uuid = "4ECA4765-72ED-47F7-953B-C65E9C301272 - 4771a468c39ff561"
+                  uuid = "4075DFD4-C574-43EC-98D8-2596B49EC53B - 6548c5018efecb4a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sudoku.NumberPicker.eraseNumber() -&gt; ()"
+                  symbolName = "closure #1 (Swift.Int) -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(Sudoku.ShowPanel, Sudoku.ShowNum)&gt; in Sudoku.NumberPicker.body.getter : some"
                   moduleName = "Sudoku"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50">
+                  startingLineNumber = "42"
+                  endingLineNumber = "42">
                </Location>
                <Location
-                  uuid = "4ECA4765-72ED-47F7-953B-C65E9C301272 - 4771a468c39ff561"
+                  uuid = "4075DFD4-C574-43EC-98D8-2596B49EC53B - 6548c5018efecb4a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Sudoku.NumberPicker.eraseNumber() -&gt; ()"
+                  symbolName = "closure #1 (Swift.Int) -&gt; () in closure #1 () -&gt; SwiftUI.TupleView&lt;(Sudoku.ShowPanel, Sudoku.ShowNum)&gt; in Sudoku.NumberPicker.body.getter : some"
                   moduleName = "Sudoku"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50">
-               </Location>
-               <Location
-                  uuid = "4ECA4765-72ED-47F7-953B-C65E9C301272 - 4771a468c39ff561"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Sudoku.NumberPicker.eraseNumber() -&gt; ()"
-                  moduleName = "Sudoku"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/danil/Xcode/Sudoku/Sudoku/GameScreen/ButtonPanel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "50"
-                  endingLineNumber = "50">
+                  startingLineNumber = "42"
+                  endingLineNumber = "42">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BF2B9940-1B0A-4898-B26F-468C1EB6D218"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Sudoku/GameScreen/SudokuGrid.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "generateSudokuField()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

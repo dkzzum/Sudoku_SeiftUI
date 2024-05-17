@@ -18,8 +18,10 @@ struct NumberPicker: View {
     @Binding var selectedNumber: Int?
     @Binding var lastTappedIndex: Int?
     @Binding var numbersInCells: [Int: Int]
-    @Binding var cellStatus: [Int: Bool] // Привязка к статусу ячеек
-    @State private var actionStack: [Action] = [] // Стек для хранения истории действий
+    @Binding var cellStatus: [Int: Bool]
+    @Binding var cellColors: [Int: Color] // Цвет ячейки
+    @Binding var allNumbersInCells: [Int: Int]
+    @State private var actionStack: [Action] = []
 
     var body: some View {
         VStack(spacing: 35.0) {
@@ -32,9 +34,16 @@ struct NumberPicker: View {
                     // Сохраняем текущее состояние для отмены
                     let previousNumber = numbersInCells[currentIndex]
                     actionStack.append(Action(type: .place, index: currentIndex, previousValue: previousNumber))
-                    
+
                     // Обновляем число только в активной ячейке
                     numbersInCells[currentIndex] = number // Устанавливаем выбранное число в активной ячейке
+
+                    // Проверка правильности числа
+                    if let correctNumber = allNumbersInCells[currentIndex], correctNumber == number {
+                        cellColors[currentIndex] = Color.white // Правильное число
+                    } else {
+                        cellColors[currentIndex] = Color(red: 0.996, green: 0.853, blue: 0.834) // Неправильное число
+                    }
                 }
                 selectedNumber = number // Обновляем выбранное число
             })
@@ -46,26 +55,24 @@ struct NumberPicker: View {
 
     // Функция для удаления числа из активной ячейки
     private func eraseNumber() {
-        let cs = cellStatus
         if let currentIndex = lastTappedIndex, let previousNumber = numbersInCells[currentIndex] {
             // Проверяем, можно ли стереть число в ячейке
-            if cellStatus[currentIndex] == true {
-                return
-            } // Если ячейка заполнена автоматически, ничего не делаем
+            if cellStatus[currentIndex] == true { return } // Если ячейка заполнена автоматически, ничего не делаем
 
             // Сохраняем текущее состояние для отмены
             actionStack.append(Action(type: .erase, index: currentIndex, previousValue: previousNumber))
-            
+
             numbersInCells[currentIndex] = nil // Удаляем число из активной ячейки
+            cellColors[currentIndex] = Color.white // Сбрасываем цвет ячейки
         }
     }
 
     // Функция для отмены последнего действия
     private func undoLastAction() {
         guard let lastAction = actionStack.popLast() else { return }
-        
+
         lastTappedIndex = lastAction.index // Устанавливаем активную ячейку на ту, где произошло последнее действие
-        
+
         switch lastAction.type {
         case .place:
             if let previousValue = lastAction.previousValue {
@@ -73,13 +80,16 @@ struct NumberPicker: View {
             } else {
                 numbersInCells.removeValue(forKey: lastAction.index)
             }
+            cellColors[lastAction.index] = Color.white // Сбрасываем цвет ячейки при отмене действия
         case .erase:
             if let previousValue = lastAction.previousValue {
                 numbersInCells[lastAction.index] = previousValue
+                cellColors[lastAction.index] = Color.white // Сбрасываем цвет ячейки при отмене действия
             }
         }
     }
 }
+
 
 // Структура для хранения информации о действиях пользователя
 struct Action {

@@ -13,20 +13,22 @@ struct GameScreen: View {
     @State private var lastTappedIndex: Int? // Индекс последней выбранной ячейки
     @Binding var numbersInCells: [Int: Int] // Словарь для хранения чисел в ячейках
     @Binding var cellStatus: [Int: Bool] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @Binding var cellColors: [Int: Color] // Цвет ячейки
+    @Binding var allNumbersInCells: [Int: Int]
 
     var body: some View {
         VStack(spacing: 30) {
             TopPanel() // Верхняя панель с информацией
-            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells,
-                cellStatus: $cellStatus)
+            ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells)
                 .frame(width: 360.0) // Устанавливаем ширину контейнера для сетки
-            NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus)
+            NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells)
                 .frame(width: 360.0) // Устанавливаем ширину панели с цифрами
         }
         .toolbar(.hidden, for: .tabBar) // Скрываем нижнюю панель инструментов
         .frame(maxWidth: .infinity) // Центрируем содержимое
     }
 }
+
 
 
 

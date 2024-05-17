@@ -75,11 +75,13 @@ struct BigCenterButton: View {
     @State private var isShowingDetailsView = false
     @State var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
     @State var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+    @State var cellColors: [Int: Color] = [:]
+    @State var allNumbersInCells: [Int: Int] = [:]
     
     var body: some View {
         NavigationView {
             NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus)
+                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells)
             } label: {
                 Text("Начать игру")
 //                Button("Steart gmae") {
