@@ -111,6 +111,7 @@ struct SudokuGrid: View {
                 }
             }
         }
+        .frame(width: 330, height: 330)
         .border(Color.black, width: 2) // Граница вокруг всей сетки
     }
 }
@@ -179,7 +180,7 @@ struct Cell: View {
         }) {
             RoundedRectangle(cornerRadius: 0) // Прямоугольник с нулевым радиусом скругления
                 .stroke(Color(red: 0.494, green: 0.498, blue: 0.578), lineWidth: 1) // Цвет и ширина границы ячейки
-                .frame(width: 35, height: 35) // Размер ячейки
+                .frame(width: 36.3, height: 36.3) // Размер ячейки
                 .background(determineBackgroundColor(for: index, with: numbersInCells[index])) // Цвет фона для активной и неактивной ячейки
                 .overlay(
                     Text(numbersInCells[index] != nil ? "\(numbersInCells[index]!)" : "")
@@ -264,7 +265,7 @@ struct TopInfo: View {
                 .font(.caption)
                 .foregroundColor(Color(red: 0.494, green: 0.498, blue: 0.578))
             Spacer()
-            Text("Ошибки: \(errorCount) из 3")
+            Text("Ошибки: \(errorCount)/3")
                 .font(.caption)
                 .foregroundColor(Color(red: 0.494, green: 0.498, blue: 0.578))
             Spacer()
