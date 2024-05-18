@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct TopPanel: View {
-    
     var body: some View {
-        HStack() {
+        HStack {
             BackButton()
-                .background(Color(red: 0.966, green: 0.973, blue: 0.997))
-                .cornerRadius(5)
             Spacer()
         }
         .padding(.leading, 10.0)
@@ -30,10 +27,16 @@ struct BackButton: View {
         } label: {
             Image(systemName: backButton)
                 .resizable()
-                .frame(width: 25.0, height: 25.0)
-                .foregroundColor(Color(red: 0.498, green: 0.498, blue: 0.582))
-            .frame(width: 35.0, height: 35.0)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 20, height: 20)
+                .foregroundColor(Color(red: 0.098, green: 0.098, blue: 0.098))
+                .padding()
+                .background(Color.white)
+                .clipShape(Capsule())
+                .shadow(color: Color.black.opacity(0.15), radius: 0, x: 0, y: 3)
         }
         .navigationBarHidden(true)
     }
 }
+
+

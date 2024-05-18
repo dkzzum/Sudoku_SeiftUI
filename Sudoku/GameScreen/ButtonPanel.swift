@@ -39,8 +39,9 @@ struct NumberPicker: View {
             ShowNum(onTap: placeNumber, placedNumbersCount: placedNumbersCount)
                 .frame(height: 40)
         }
+        .padding(.horizontal, 5)
         .padding(10)
-        .background(Color(red: 0.965, green: 0.973, blue: 0.994))
+        .background(Color.white)
         .cornerRadius(10)
     }
 

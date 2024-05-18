@@ -26,6 +26,7 @@
 		83AC00482BE3F26A0055E44C /* second.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83AC00462BE3F26A0055E44C /* second.jpg */; };
 		83BEFA562BDDB30C00249C29 /* SudokuGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BEFA552BDDB30C00249C29 /* SudokuGrid.swift */; };
 		83BEFA582BDDB3CD00249C29 /* ButtonPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BEFA572BDDB3CD00249C29 /* ButtonPanel.swift */; };
+		83C82E552BF8B8FF00B3201A /* screen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83C82E542BF8B8FF00B3201A /* screen.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		83AC00462BE3F26A0055E44C /* second.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = second.jpg; path = "../../../../Library/Application Support/Dropzone/Promised Files/DzFilePromise-3AA571C5-CF1C-46F6-AAC2-55426821D33B/second.jpg"; sourceTree = "<group>"; };
 		83BEFA552BDDB30C00249C29 /* SudokuGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGrid.swift; sourceTree = "<group>"; };
 		83BEFA572BDDB3CD00249C29 /* ButtonPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonPanel.swift; sourceTree = "<group>"; };
+		83C82E542BF8B8FF00B3201A /* screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = screen.jpg; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 		8352F28D2BDD460F00403B45 /* Sudoku */ = {
 			isa = PBXGroup;
 			children = (
+				83C82E542BF8B8FF00B3201A /* screen.jpg */,
 				835D1D4C2BE2BFA600326A0E /* MainMenu */,
 				83BEFA542BDDB2C900249C29 /* GameScreen */,
 				8352F2B82BDD468500403B45 /* Algoritm */,
@@ -298,6 +301,7 @@
 				8352F2962BDD461000403B45 /* Preview Assets.xcassets in Resources */,
 				83AC00472BE3F26A0055E44C /* first.jpg in Resources */,
 				83AC00482BE3F26A0055E44C /* second.jpg in Resources */,
+				83C82E552BF8B8FF00B3201A /* screen.jpg in Resources */,
 				8352F2932BDD461000403B45 /* Assets.xcassets in Resources */,
 				83AC00442BE3EB520055E44C /* File in Resources */,
 			);

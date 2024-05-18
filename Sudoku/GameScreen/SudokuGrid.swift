@@ -29,10 +29,12 @@ struct ContainerGrid: View {
         VStack {
             TopInfo(gameTime: $gameTime, errorCount: $errorCount, difficultyLevel: $difficultyLevel)
             SudokuGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber, activeSquareIndices: $activeSquareIndices)
+                .padding(.horizontal, 5) // Настройка горизонтальных отступов
+                .padding(.bottom, 5) // Настройка вертикальных отступов
         }
-        .padding()
-        .background(Color(red: 0.966, green: 0.973, blue: 0.997))
+        .background(Color.white)
         .cornerRadius(10)
+        .shadow(color: Color.black.opacity(0.15), radius: 1, x: 0, y: 3)
         .onAppear {
             startTimer()
             generateSudokuField()
@@ -42,17 +44,20 @@ struct ContainerGrid: View {
         }
     }
 
+    // Запуск таймера
     func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             gameTime += 1
         }
     }
 
+    // Остановка таймера
     func stopTimer() {
         gameTimer?.invalidate()
         gameTimer = nil
     }
 
+    // Генерация поля судоку
     func generateSudokuField() {
         let grid = Grid(len_area: len_area)
         let userField = grid.removeCells(difficulty: difficultyLevel)
@@ -155,7 +160,7 @@ struct Cell: View {
             RoundedRectangle(cornerRadius: 0)
                 .stroke(Color(red: 0.494, green: 0.498, blue: 0.578), lineWidth: 1)
                 .background(determineBackgroundColor(for: index, with: numbersInCells[index]))
-                .frame(width: 36.3, height: 36.3)
+                .frame(width: 38, height: 38) // Увеличение размера ячейки
                 .overlay(
                     Text(numbersInCells[index] != nil ? "\(numbersInCells[index]!)" : "")
                         .font(.title)
@@ -164,6 +169,7 @@ struct Cell: View {
         }
     }
 
+    // Обновление активных индексов квадрата
     func updateActiveSquareIndices(for index: Int) {
         let row = index / (len_area * len_area)
         let col = index % (len_area * len_area)
@@ -189,6 +195,7 @@ struct Cell: View {
         }
     }
 
+    // Определение цвета фона для ячейки
     func determineBackgroundColor(for index: Int, with number: Int?) -> Color {
         if lastTappedIndex == index {
             if number == nil {
@@ -211,6 +218,7 @@ struct Cell: View {
     }
 }
 
+
 struct TopInfo: View {
     @Binding var gameTime: TimeInterval
     @Binding var errorCount: Int
@@ -230,7 +238,7 @@ struct TopInfo: View {
                 .font(.caption)
                 .foregroundColor(Color(red: 0.494, green: 0.498, blue: 0.578))
         }
-        .padding(.vertical, 5.0)
+        .padding(.top, 5.0)
         .frame(width: 300.0)
     }
 
@@ -242,30 +250,52 @@ struct TopInfo: View {
 }
 
 
-
 //struct eScreen: View {
 //    let len_area: Int
-//    @State var gameTime: TimeInterval = 0  // Инициализация пустого словаря
-//    @Binding var nnn: Bool
-//
+//    @State private var isShowingDetailsView = false
+//    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
+//    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
+//    @State private var cellColors: [Int: Color] = [:]
+//    @State private var allNumbersInCells: [Int: Int] = [:]
+//    @State private var errorCount: Int = 0
+//    @State private var showEndGameAlert = false
+//    @State private var showCompletionAlert = false
+//    @State private var gameTime: TimeInterval = 0
+//    @State private var gameTimer: Timer?
+//    @State private var highlightedNumber: Int? = nil
+//    @State private var placedNumbersCount: [Int: Int] = [:]
+//    
 //    var body: some View {
 //        VStack() {
-//            CompletionAlertView(isVisible: $nnn, gameTime: gameTime, difficultyLevel: "East")
+//            NavigationView {
+//                NavigationLink {
+//                    GameScreen(len_area: len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+//                } label: {
+//                    Text("Начать игру")
+//                        .font(.title)
+//                        .foregroundColor(Color.white)
+//                        .multilineTextAlignment(.center)
+//                        .frame(width: 300.0, height: 50.0)
+//                        .background(Color(red: 0.192, green: 0.477, blue: 0.907))
+//                        .cornerRadius(50)
+//                }
+//            }
 //        }
-////        .toolbar(.hidden, for: .tabBar)
-////        .frame(maxWidth: .infinity)
 //    }
 //}
+//    
 //
-//struct scree: View {
-//    var len_area: Int = 3
-//    @State var nnn: Bool = true
-//    var body: some View {
-//        eScreen(len_area: len_area, nnn: $nnn)
-//    }
-//}
+//
+////struct scree: View {
+////    var len_area: Int = 3
+////    @State var nnn: Bool = true
+////    var body: some View {
+////        eScreen(len_area: len_area, nnn: $nnn)
+////    }
+////}
 //
 //
 //#Preview {
-//    scree(len_area: 3)
+//    //    scree(len_area: 4)
+//    eScreen(len_area: 3)
 //}
