@@ -7,67 +7,70 @@
 
 import SwiftUI
 
+// Структура для представления сетки контейнеров
 struct ContainerGrid: View {
     let len_area: Int
-    @Binding var selectedNumber: Int?
-    @Binding var lastTappedIndex: Int?
-    @Binding var numbersInCells: [Int: Int]
-    @Binding var cellStatus: [Int: Bool]
-    @Binding var cellColors: [Int: Color]
-    @Binding var allNumbersInCells: [Int: Int]
-    @Binding var errorCount: Int
-    @Binding var showEndGameAlert: Bool
-    @Binding var highlightedNumber: Int?
-    @Binding var gameTimer: Timer?
-    @Binding var placedNumbersCount: [Int: Int]
+    @Binding var selectedNumber: Int? // Выбранное число
+    @Binding var lastTappedIndex: Int? // Индекс последней нажатой ячейки
+    @Binding var numbersInCells: [Int: Int] // Привязка к числам в ячейках
+    @Binding var cellStatus: [Int: Bool] // Привязка к статусу ячеек
+    @Binding var cellColors: [Int: Color] // Привязка к цветам ячеек
+    @Binding var allNumbersInCells: [Int: Int] // Привязка к всем числам в ячейках
+    @Binding var errorCount: Int // Привязка к счетчику ошибок
+    @Binding var showEndGameAlert: Bool // Привязка к флагу окончания игры
+    @Binding var highlightedNumber: Int? // Привязка к выделенному числу
+    @Binding var gameTimer: Timer? // Привязка к таймеру игры
+    @Binding var placedNumbersCount: [Int: Int] // Привязка к количеству
 
-    @State private var gameTime: TimeInterval = 0
+    @State private var gameTime: TimeInterval = 0 // Привязка к времени игры
     @State private var difficultyLevel: String = "Easy"
     @State private var activeSquareIndices: Set<Int> = []
 
     var body: some View {
         VStack {
+            // Верхняя панель с информацией
             TopInfo(gameTime: $gameTime, errorCount: $errorCount, difficultyLevel: $difficultyLevel)
+            // Сетка Судоку
             SudokuGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, highlightedNumber: $highlightedNumber, activeSquareIndices: $activeSquareIndices)
-                .padding(.horizontal, 5) // Настройка горизонтальных отступов
-                .padding(.bottom, 5) // Настройка вертикальных отступов
+                .padding(.horizontal, 5)
+                .padding(.bottom, 5)
         }
         .background(Color.white)
         .cornerRadius(10)
         .shadow(color: Color.black.opacity(0.15), radius: 1, x: 0, y: 3)
         .onAppear {
-            startTimer()
-            generateSudokuField()
+            startTimer() // Запуск таймера при появлении
+            generateSudokuField() // Генерация поля Судоку
         }
         .onDisappear {
-            stopTimer()
+            stopTimer() // Остановка таймера при исчезновении
         }
     }
 
-    // Запуск таймера
+    // Функция запуска таймера
     func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             gameTime += 1
         }
     }
 
-    // Остановка таймера
+    // Функция остановки таймера
     func stopTimer() {
         gameTimer?.invalidate()
         gameTimer = nil
     }
 
-    // Генерация поля судоку
+    // Функция генерации поля Судоку
     func generateSudokuField() {
-        let grid = Grid(len_area: len_area)
-        let userField = grid.removeCells(difficulty: difficultyLevel)
+        let grid = Grid(len_area: len_area) // Создание объекта сетки
+        let userField = grid.removeCells(difficulty: difficultyLevel) // Удаление ячеек в зависимости от уровня сложности
 
         placedNumbersCount = [:]
 
         for (rowIndex, row) in grid.field.enumerated() {
             for (colIndex, value) in row.enumerated() {
                 let index = rowIndex * len_area * len_area + colIndex
-                allNumbersInCells[index] = value
+                allNumbersInCells[index] = value // Заполнение всех чисел в ячейках
             }
         }
 
@@ -75,7 +78,7 @@ struct ContainerGrid: View {
             for (colIndex, value) in row.enumerated() {
                 let index = rowIndex * len_area * len_area + colIndex
                 if value != 0 {
-                    numbersInCells[index] = value
+                    numbersInCells[index] = value // Заполнение чисел в ячейках, которые не были удалены
                     cellStatus[index] = true
 
                     if value != 0 {
@@ -87,6 +90,7 @@ struct ContainerGrid: View {
     }
 }
 
+// Структура для представления сетки Судоку
 struct SudokuGrid: View {
     let len_area: Int
     @Binding var selectedNumber: Int?
@@ -100,6 +104,7 @@ struct SudokuGrid: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // Создание сетки ячеек
             ForEach(0..<len_area, id: \.self) { bigRow in
                 HStack(spacing: 0) {
                     ForEach(0..<len_area, id: \.self) { bigCol in
@@ -112,6 +117,7 @@ struct SudokuGrid: View {
     }
 }
 
+// Структура для представления сетки ячеек
 struct CellGrid: View {
     let bigRow: Int
     let bigCol: Int
@@ -127,6 +133,7 @@ struct CellGrid: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // Создание ячеек внутри большой ячейки
             ForEach(0..<len_area, id: \.self) { row in
                 HStack(spacing: 0) {
                     ForEach(0..<len_area, id: \.self) { column in
@@ -139,6 +146,7 @@ struct CellGrid: View {
     }
 }
 
+// Структура для представления отдельной ячейки
 struct Cell: View {
     let len_area: Int
     @Binding var lastTappedIndex: Int?
@@ -160,7 +168,7 @@ struct Cell: View {
             RoundedRectangle(cornerRadius: 0)
                 .stroke(Color(red: 0.494, green: 0.498, blue: 0.578), lineWidth: 1)
                 .background(determineBackgroundColor(for: index, with: numbersInCells[index]))
-                .frame(width: 38, height: 38) // Увеличение размера ячейки
+                .frame(width: 38, height: 38)
                 .overlay(
                     Text(numbersInCells[index] != nil ? "\(numbersInCells[index]!)" : "")
                         .font(.title)
@@ -218,7 +226,7 @@ struct Cell: View {
     }
 }
 
-
+// Структура для представления верхней панели с информацией
 struct TopInfo: View {
     @Binding var gameTime: TimeInterval
     @Binding var errorCount: Int
@@ -242,6 +250,7 @@ struct TopInfo: View {
         .frame(width: 300.0)
     }
 
+    // Форматирование времени в строку
     func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60

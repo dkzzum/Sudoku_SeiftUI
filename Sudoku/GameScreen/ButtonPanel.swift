@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Структура для представления панели выбора чисел
 struct NumberPicker: View {
     let cards: [CardAndText] = [
         CardAndText(card: "arrowshape.turn.up.backward.fill", text: "Отмена"),
@@ -15,27 +16,29 @@ struct NumberPicker: View {
         CardAndText(card: "lightbulb.fill", text: "Подсказка")
     ]
 
-    @Binding var selectedNumber: Int?
-    @Binding var lastTappedIndex: Int?
-    @Binding var numbersInCells: [Int: Int]
-    @Binding var cellStatus: [Int: Bool]
-    @Binding var cellColors: [Int: Color]
-    @Binding var allNumbersInCells: [Int: Int]
-    @Binding var errorCount: Int
-    @Binding var showEndGameAlert: Bool
-    @Binding var showCompletionAlert: Bool
-    @Binding var gameTime: TimeInterval
-    @Binding var gameTimer: Timer?
-    @Binding var highlightedNumber: Int?
-    @Binding var placedNumbersCount: [Int: Int]
+    @Binding var selectedNumber: Int? // Выбранное число
+    @Binding var lastTappedIndex: Int? // Индекс последней нажатой
+    @Binding var numbersInCells: [Int: Int] // Привязка к числам в ячейках
+    @Binding var cellStatus: [Int: Bool] // Привязка к статусу ячеек
+    @Binding var cellColors: [Int: Color] // Привязка к цветам ячеек
+    @Binding var allNumbersInCells: [Int: Int] // Привязка к всем числам в ячейках
+    @Binding var errorCount: Int // Привязка к счетчику ошибок
+    @Binding var showEndGameAlert: Bool // Привязка к флагу окончания игры
+    @Binding var showCompletionAlert: Bool // Привязка к флагу завершения игры
+    @Binding var gameTime: TimeInterval // Привязка к времени игры
+    @Binding var gameTimer: Timer? // Привязка к таймеру игры
+    @Binding var highlightedNumber: Int? // Привязка к выделенному числу
+    @Binding var placedNumbersCount: [Int: Int] // Привязка к количеству
 
     @State private var actionStack: [Action] = []
     @State private var activeSquareIndices: Set<Int> = []
 
     var body: some View {
         VStack(spacing: 10.0) {
+            // Панель с действиями
             ShowPanel(cards: cards, eraseAction: eraseNumber, undoAction: undoLastAction)
                 .frame(height: 40)
+            // Панель с числами
             ShowNum(onTap: placeNumber, placedNumbersCount: placedNumbersCount)
                 .frame(height: 40)
         }
@@ -45,11 +48,13 @@ struct NumberPicker: View {
         .cornerRadius(10)
     }
 
+    // Функция остановки таймера
     func stopTimer() {
         gameTimer?.invalidate()
         gameTimer = nil
     }
 
+    // Функция размещения числа в ячейке
     private func placeNumber(_ number: Int) {
         if let currentIndex = lastTappedIndex {
             if cellStatus[currentIndex] == true { return }
@@ -91,6 +96,7 @@ struct NumberPicker: View {
         selectedNumber = number
     }
 
+    // Функция стирания числа из ячейки
     private func eraseNumber() {
         if let currentIndex = lastTappedIndex, let previousNumber = numbersInCells[currentIndex] {
             if cellStatus[currentIndex] == true { return }
@@ -106,6 +112,7 @@ struct NumberPicker: View {
         }
     }
 
+    // Функция отмены последнего действия
     private func undoLastAction() {
         guard let lastAction = actionStack.popLast() else { return }
 
@@ -114,16 +121,17 @@ struct NumberPicker: View {
         switch lastAction.type {
         case .place:
             if let previousValue = lastAction.previousValue {
+                placedNumbersCount[numbersInCells[lastAction.index]!, default: 1] -= 1
                 numbersInCells[lastAction.index] = previousValue
                 placedNumbersCount[previousValue, default: 0] += 1
-                placedNumbersCount[lastAction.index, default: 1] -= 1
             } else {
+                placedNumbersCount[numbersInCells[lastAction.index]!, default: 1] -= 1
                 numbersInCells.removeValue(forKey: lastAction.index)
-                placedNumbersCount[lastAction.index, default: 1] -= 1
             }
             cellColors[lastAction.index] = Color.white
         case .erase:
             if let previousValue = lastAction.previousValue {
+                placedNumbersCount[numbersInCells[lastAction.index]!, default: 1] -= 1
                 numbersInCells[lastAction.index] = previousValue
                 cellColors[lastAction.index] = Color.white
             }
@@ -137,6 +145,7 @@ struct NumberPicker: View {
     }
 }
 
+// Структура для представления действий
 struct Action {
     enum ActionType {
         case place
@@ -148,6 +157,7 @@ struct Action {
     let previousValue: Int?
 }
 
+// Структура для представления панели действий
 struct ShowPanel: View {
     var cards: [CardAndText]
     var eraseAction: () -> Void
@@ -185,6 +195,7 @@ struct ShowPanel: View {
     }
 }
 
+// Структура для представления панели выбора чисел
 struct ShowNum: View {
     let numbers: [Int] = Array(1...9)
     let onTap: (Int) -> Void
@@ -206,6 +217,7 @@ struct ShowNum: View {
                     .accessibilityAddTraits([.isButton])
                     .frame(width: 22.0)
                     .accessibilityLabel("\(number)")
+                    .clipped(antialiased: true)
                 } else {
                     Text("")
                         .frame(width: 22.0, height: 37.0)
@@ -216,6 +228,7 @@ struct ShowNum: View {
     }
 }
 
+// Структура для представления карты и текста
 struct CardAndText: Identifiable {
     let card: String
     let text: String

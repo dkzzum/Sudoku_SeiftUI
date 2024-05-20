@@ -7,10 +7,11 @@
 
 import SwiftUI
 
+// Структура для представления вида окончания игры
 struct EndGameView: View {
     @Binding var isVisible: Bool
 
-    var grid = Grid(len_area: 3)
+    var len_area: Int = 3
     @State private var isShowingDetailsView = false
     @State private var numbersInCells: [Int: Int] = [:]
     @State private var cellStatus: [Int: Bool] = [:]
@@ -31,7 +32,7 @@ struct EndGameView: View {
                 .padding()
 
             NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells,
+                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
                            cellStatus: $cellStatus, cellColors: $cellColors,
                            allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
                            showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
@@ -67,12 +68,14 @@ struct EndGameView: View {
     }
 }
 
+
+// Структура для представления уведомления о завершении игры
 struct CompletionAlertView: View {
     @Binding var isVisible: Bool
     var gameTime: TimeInterval
     var difficultyLevel: String
 
-    var grid = Grid(len_area: 3)
+    var len_area: Int = 3
     @State private var isShowingDetailsView = false
     @State private var numbersInCells: [Int: Int] = [:]
     @State private var cellStatus: [Int: Bool] = [:]
@@ -98,7 +101,7 @@ struct CompletionAlertView: View {
                 .padding()
 
             NavigationLink {
-                GameScreen(len_area: grid.len_area, numbersInCells: $numbersInCells,
+                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
                            cellStatus: $cellStatus, cellColors: $cellColors,
                            allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
                            showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
@@ -133,11 +136,10 @@ struct CompletionAlertView: View {
         .shadow(radius: 20)
     }
 
+    // Функция форматирования времени
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
 }
-
-
