@@ -240,7 +240,6 @@ struct CardAndText: Identifiable {
 }
 
 
-
 //#Preview {
 //    NumberPicker()
 //}
