@@ -161,13 +161,14 @@ struct Cell: View {
 
     var body: some View {
         Button(action: {
-            lastTappedIndex = index
-            highlightedNumber = numbersInCells[index]
-            updateActiveSquareIndices(for: index)
+                lastTappedIndex = index
+                highlightedNumber = numbersInCells[index]
+                updateActiveSquareIndices(for: index)
         }) {
             RoundedRectangle(cornerRadius: 0)
                 .stroke(Color(red: 0.494, green: 0.498, blue: 0.578), lineWidth: 1)
-                .background(determineBackgroundColor(for: index, with: numbersInCells[index]))
+                .background(determineBackgroundColor(for: index, with: numbersInCells[index]).animation(nil))
+
                 .frame(width: 38, height: 38)
                 .overlay(
                     Text(numbersInCells[index] != nil ? "\(numbersInCells[index]!)" : "")
@@ -175,9 +176,11 @@ struct Cell: View {
                         .foregroundColor(cellStatus[index] == true ? Color.black : Color(red: 0.263, green: 0.367, blue: 0.658))
                 )
         }
+        .buttonStyle(PlainButtonStyle()) // Использование стиля без анимации
+        .accessibility(identifier: "cell_\(index / len_area)_\(index % len_area)")
     }
 
-    // Обновление активных индексов квадрата
+    // Добавление метода обновления активных квадратных индексов в ContainerGrid
     func updateActiveSquareIndices(for index: Int) {
         let row = index / (len_area * len_area)
         let col = index % (len_area * len_area)
@@ -202,7 +205,7 @@ struct Cell: View {
             activeSquareIndices.insert(horizontalIndex)
         }
     }
-
+    
     // Определение цвета фона для ячейки
     func determineBackgroundColor(for index: Int, with number: Int?) -> Color {
         if lastTappedIndex == index {

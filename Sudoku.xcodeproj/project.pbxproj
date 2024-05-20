@@ -21,7 +21,6 @@
 		835D1D4E2BE2BFC100326A0E /* MenuScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835D1D4D2BE2BFC100326A0E /* MenuScreen.swift */; };
 		839ED18D2BF78AC4001C9CB9 /* pvre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839ED18C2BF78AC4001C9CB9 /* pvre.swift */; };
 		839ED18F2BF7AAB9001C9CB9 /* EndScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839ED18E2BF7AAB9001C9CB9 /* EndScreen.swift */; };
-		83AC00442BE3EB520055E44C /* File in Resources */ = {isa = PBXBuildFile; fileRef = 83AC00432BE3EB520055E44C /* File */; };
 		83AC00472BE3F26A0055E44C /* first.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83AC00452BE3F26A0055E44C /* first.jpg */; };
 		83AC00482BE3F26A0055E44C /* second.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 83AC00462BE3F26A0055E44C /* second.jpg */; };
 		83BEFA562BDDB30C00249C29 /* SudokuGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83BEFA552BDDB30C00249C29 /* SudokuGrid.swift */; };
@@ -64,7 +63,6 @@
 		835D1D4D2BE2BFC100326A0E /* MenuScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScreen.swift; sourceTree = "<group>"; };
 		839ED18C2BF78AC4001C9CB9 /* pvre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pvre.swift; sourceTree = "<group>"; };
 		839ED18E2BF7AAB9001C9CB9 /* EndScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndScreen.swift; sourceTree = "<group>"; };
-		83AC00432BE3EB520055E44C /* File */ = {isa = PBXFileReference; lastKnownFileType = text; path = File; sourceTree = "<group>"; };
 		83AC00452BE3F26A0055E44C /* first.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = first.jpg; sourceTree = "<group>"; };
 		83AC00462BE3F26A0055E44C /* second.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = second.jpg; path = "../../../../Library/Application Support/Dropzone/Promised Files/DzFilePromise-3AA571C5-CF1C-46F6-AAC2-55426821D33B/second.jpg"; sourceTree = "<group>"; };
 		83BEFA552BDDB30C00249C29 /* SudokuGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGrid.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 				83AC00452BE3F26A0055E44C /* first.jpg */,
 				83AC00462BE3F26A0055E44C /* second.jpg */,
 				835D1D4D2BE2BFC100326A0E /* MenuScreen.swift */,
-				83AC00432BE3EB520055E44C /* File */,
 				8348C4892BE6CB7D00F6B0E8 /* SwiftUIView.swift */,
 			);
 			path = MainMenu;
@@ -278,6 +275,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 8352F2822BDD460F00403B45;
 			packageReferences = (
@@ -303,7 +301,6 @@
 				83AC00482BE3F26A0055E44C /* second.jpg in Resources */,
 				83C82E552BF8B8FF00B3201A /* screen.jpg in Resources */,
 				8352F2932BDD461000403B45 /* Assets.xcassets in Resources */,
-				83AC00442BE3EB520055E44C /* File in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +424,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -484,7 +481,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -656,7 +653,7 @@
 				8352F2AE2BDD461000403B45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		8352F2AF2BDD461000403B45 /* Build configuration list for PBXNativeTarget "Sudoku" */ = {
 			isa = XCConfigurationList;
@@ -665,7 +662,7 @@
 				8352F2B12BDD461000403B45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		8352F2B22BDD461000403B45 /* Build configuration list for PBXNativeTarget "SudokuTests" */ = {
 			isa = XCConfigurationList;
@@ -674,7 +671,7 @@
 				8352F2B42BDD461000403B45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		8352F2B52BDD461000403B45 /* Build configuration list for PBXNativeTarget "SudokuUITests" */ = {
 			isa = XCConfigurationList;
@@ -683,7 +680,7 @@
 				8352F2B72BDD461000403B45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

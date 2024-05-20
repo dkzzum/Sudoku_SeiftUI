@@ -11,7 +11,8 @@ import SwiftUI
 struct SudokuApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView().background(Color(red: 240, green: 240, blue: 250))
+            ContentView()
+                .preferredColorScheme(.light)
         }
     }
 }

@@ -55,9 +55,13 @@ struct NumberPicker: View {
     }
 
     // Функция размещения числа в ячейке
-    private func placeNumber(_ number: Int) {
-        if let currentIndex = lastTappedIndex {
-            if cellStatus[currentIndex] == true { return }
+        private func placeNumber(_ number: Int) {
+            if let currentIndex = lastTappedIndex {
+                // Проверка, можно ли изменить текущее значение
+                if let currentNumber = numbersInCells[currentIndex], let correctNumber = allNumbersInCells[currentIndex], currentNumber == correctNumber {
+                    // Если текущее значение правильное, его нельзя изменить
+                    return
+                }
 
             let previousNumber = numbersInCells[currentIndex]
             actionStack.append(Action(type: .place, index: currentIndex, previousValue: previousNumber))
