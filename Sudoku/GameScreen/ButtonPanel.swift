@@ -29,14 +29,16 @@ struct NumberPicker: View {
     @Binding var gameTimer: Timer? // Привязка к таймеру игры
     @Binding var highlightedNumber: Int? // Привязка к выделенному числу
     @Binding var placedNumbersCount: [Int: Int] // Привязка к количеству
+    var len_area: Int
+    @Binding var activeSquareIndices: Set<Int>
+
 
     @State private var actionStack: [Action] = []
-    @State private var activeSquareIndices: Set<Int> = []
-
+        
     var body: some View {
         VStack(spacing: 10.0) {
             // Панель с действиями
-            ShowPanel(cards: cards, eraseAction: eraseNumber, undoAction: undoLastAction)
+            ShowPanel(cards: cards, eraseAction: eraseNumber, undoAction: undoLastAction, len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, activeSquareIndices: $activeSquareIndices)
                 .frame(height: 40)
             // Панель с числами
             ShowNum(onTap: placeNumber, placedNumbersCount: placedNumbersCount)
@@ -55,33 +57,33 @@ struct NumberPicker: View {
     }
 
     // Функция размещения числа в ячейке
-        private func placeNumber(_ number: Int) {
-            if let currentIndex = lastTappedIndex {
-                // Проверка, можно ли изменить текущее значение
-                if let currentNumber = numbersInCells[currentIndex], let correctNumber = allNumbersInCells[currentIndex], currentNumber == correctNumber {
-                    // Если текущее значение правильное, его нельзя изменить
-                    return
-                }
-
-            let previousNumber = numbersInCells[currentIndex]
-            actionStack.append(Action(type: .place, index: currentIndex, previousValue: previousNumber))
-
-            numbersInCells[currentIndex] = number
-
-            highlightedNumber = number
-
-            placedNumbersCount[number, default: 0] += 1
-            if let prevNum = previousNumber {
-                placedNumbersCount[prevNum, default: 1] -= 1
+    private func placeNumber(_ number: Int) {
+        if let currentIndex = lastTappedIndex {
+            // Проверка, можно ли изменить текущее значение
+            if let currentNumber = numbersInCells[currentIndex], let correctNumber = allNumbersInCells[currentIndex], currentNumber == correctNumber {
+                // Если текущее значение правильное, его нельзя изменить
+                return
             }
 
-            if let correctNumber = allNumbersInCells[currentIndex] {
-                if number != correctNumber {
-                    errorCount += 1
-                    if errorCount >= 3 {
-                        showEndGameAlert = true
-                    }
-                    cellColors[currentIndex] = Color(red: 0.996, green: 0.853, blue: 0.834)
+        let previousNumber = numbersInCells[currentIndex]
+        actionStack.append(Action(type: .place, index: currentIndex, previousValue: previousNumber))
+
+        numbersInCells[currentIndex] = number
+
+        highlightedNumber = number
+
+        placedNumbersCount[number, default: 0] += 1
+        if let prevNum = previousNumber {
+            placedNumbersCount[prevNum, default: 1] -= 1
+        }
+
+        if let correctNumber = allNumbersInCells[currentIndex] {
+            if number != correctNumber {
+                errorCount += 1
+                if errorCount >= 3 {
+                    showEndGameAlert = true
+                }
+                cellColors[currentIndex] = Color(red: 0.996, green: 0.853, blue: 0.834)
                 } else {
                     cellColors[currentIndex] = Color.white
                 }
@@ -109,6 +111,7 @@ struct NumberPicker: View {
 
             numbersInCells[currentIndex] = nil
             cellColors[currentIndex] = Color.white
+            
 
             placedNumbersCount[previousNumber, default: 1] -= 1
 
@@ -121,6 +124,7 @@ struct NumberPicker: View {
         guard let lastAction = actionStack.popLast() else { return }
 
         lastTappedIndex = lastAction.index
+        updateActiveSquareIndices(for: lastTappedIndex) // Обновление активных индексов
 
         switch lastAction.type {
         case .place:
@@ -147,6 +151,33 @@ struct NumberPicker: View {
             highlightedNumber = nil
         }
     }
+    
+    // Добавление метода обновления активных квадратных индексов в ContainerGrid
+    func updateActiveSquareIndices(for index: Int?) {
+        guard let index = index else { return }
+        let row = index / (len_area * len_area)
+        let col = index % (len_area * len_area)
+        let startRow = (row / len_area) * len_area
+        let startCol = (col / len_area) * len_area
+        activeSquareIndices.removeAll()
+
+        for r in startRow..<startRow + len_area {
+            for c in startCol..<startCol + len_area {
+                let squareIndex = r * len_area * len_area + c
+                activeSquareIndices.insert(squareIndex)
+            }
+        }
+
+        for r in 0..<len_area * len_area {
+            let verticalIndex = r * len_area * len_area + col
+            activeSquareIndices.insert(verticalIndex)
+        }
+
+        for c in 0..<len_area * len_area {
+            let horizontalIndex = row * len_area * len_area + c
+            activeSquareIndices.insert(horizontalIndex)
+        }
+    }
 }
 
 // Структура для представления действий
@@ -166,6 +197,23 @@ struct ShowPanel: View {
     var cards: [CardAndText]
     var eraseAction: () -> Void
     var undoAction: () -> Void
+    
+    var len_area: Int
+    @Binding var selectedNumber: Int? // Выбранное число
+    @Binding var lastTappedIndex: Int? // Индекс последней нажатой
+    @Binding var numbersInCells: [Int: Int] // Привязка к числам в ячейках
+    @Binding var cellStatus: [Int: Bool] // Привязка к статусу ячеек
+    @Binding var cellColors: [Int: Color] // Привязка к цветам ячеек
+    @Binding var allNumbersInCells: [Int: Int] // Привязка к всем числам в ячейках
+    @Binding var errorCount: Int // Привязка к счетчику ошибок
+    @Binding var showEndGameAlert: Bool // Привязка к флагу окончания игры
+    @Binding var showCompletionAlert: Bool // Привязка к флагу завершения игры
+    @Binding var gameTime: TimeInterval // Привязка к времени игры
+    @Binding var gameTimer: Timer? // Привязка к таймеру игры
+    @Binding var highlightedNumber: Int? // Привязка к выделенному числу
+    @Binding var activeSquareIndices: Set<Int>
+    
+    var back: Cell? = nil
 
     var body: some View {
         HStack(spacing: 23.0) {

@@ -21,10 +21,10 @@ struct ContainerGrid: View {
     @Binding var highlightedNumber: Int? // Привязка к выделенному числу
     @Binding var gameTimer: Timer? // Привязка к таймеру игры
     @Binding var placedNumbersCount: [Int: Int] // Привязка к количеству
-
+    @Binding var activeSquareIndices: Set<Int>
+    
     @State private var gameTime: TimeInterval = 0 // Привязка к времени игры
     @State private var difficultyLevel: String = "Easy"
-    @State private var activeSquareIndices: Set<Int> = []
 
     var body: some View {
         VStack {
@@ -181,7 +181,8 @@ struct Cell: View {
     }
 
     // Добавление метода обновления активных квадратных индексов в ContainerGrid
-    func updateActiveSquareIndices(for index: Int) {
+    func updateActiveSquareIndices(for index: Int?) {
+        guard let index = index else { return }
         let row = index / (len_area * len_area)
         let col = index % (len_area * len_area)
         let startRow = (row / len_area) * len_area

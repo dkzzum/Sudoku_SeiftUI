@@ -65,12 +65,13 @@ struct BigCenterButton: View {
     @State private var gameTimer: Timer? // Таймер игры
     @State private var highlightedNumber: Int? = nil // Выделенное число
     @State private var placedNumbersCount: [Int: Int] = [:] // Количество размещенных чисел
+    @State private var activeSquareIndices: Set<Int> = []
 
     var body: some View {
         NavigationView {
             NavigationLink {
                 // Переход на экран игры с передачей всех необходимых данных
-                GameScreen(len_area: len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+                GameScreen(len_area: len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices)
             } label: {
                 Text("Начать игру")
                     .font(.title)

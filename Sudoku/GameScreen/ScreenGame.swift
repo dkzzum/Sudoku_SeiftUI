@@ -23,6 +23,7 @@ struct GameScreen: View {
     @Binding var gameTimer: Timer? // Привязка к таймеру игры
     @Binding var highlightedNumber: Int? // Привязка к выделенному числу
     @Binding var placedNumbersCount: [Int: Int] // Привязка к количеству размещенных чисел
+    @Binding var activeSquareIndices: Set<Int>
 
     var body: some View {
         GeometryReader { geometry in
@@ -38,13 +39,13 @@ struct GameScreen: View {
                         .padding(.top, 30.0)
                     
                     // Сетка контейнеров с игровым полем
-                    ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount)
+                    ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices)
                         .padding(.top, 30.0)
                         .padding(.bottom, 20.0)
                         .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9)
                     
                     // Панель выбора чисел
-                    NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+                    NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount, len_area: len_area, activeSquareIndices: $activeSquareIndices)
                         .padding(.top, 10.0)
                         .frame(width: geometry.size.width * 0.9, height: 100)
                         .shadow(color: Color.black.opacity(0.15), radius: 0, x: 0, y: 3)

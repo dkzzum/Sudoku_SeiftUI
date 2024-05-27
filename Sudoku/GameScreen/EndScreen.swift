@@ -32,12 +32,12 @@ struct EndGameView: View {
                 .padding()
 
             NavigationLink {
-                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
-                           cellStatus: $cellStatus, cellColors: $cellColors,
-                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
-                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
-                           gameTime: $gameTime, gameTimer: $gameTimer,
-                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+//                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
+//                           cellStatus: $cellStatus, cellColors: $cellColors,
+//                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
+//                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
+//                           gameTime: $gameTime, gameTimer: $gameTimer,
+//                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
             } label: {
                 Text("Начать новую игру")
                     .font(.callout)
@@ -101,12 +101,12 @@ struct CompletionAlertView: View {
                 .padding()
 
             NavigationLink {
-                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
-                           cellStatus: $cellStatus, cellColors: $cellColors,
-                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
-                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
-                           gameTime: $newGameTime, gameTimer: $gameTimer,
-                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+//                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
+//                           cellStatus: $cellStatus, cellColors: $cellColors,
+//                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
+//                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
+//                           gameTime: $newGameTime, gameTimer: $gameTimer,
+//                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
             } label: {
                 Text("Начать новую игру")
                     .font(.callout)
