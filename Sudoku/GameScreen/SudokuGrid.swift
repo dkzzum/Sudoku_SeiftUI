@@ -22,9 +22,9 @@ struct ContainerGrid: View {
     @Binding var gameTimer: Timer? // Привязка к таймеру игры
     @Binding var placedNumbersCount: [Int: Int] // Привязка к количеству
     @Binding var activeSquareIndices: Set<Int>
+    @Binding var difficultyLevel: String
     
     @State private var gameTime: TimeInterval = 0 // Привязка к времени игры
-    @State private var difficultyLevel: String = "Easy"
 
     var body: some View {
         VStack {
@@ -262,53 +262,3 @@ struct TopInfo: View {
     }
 }
 
-
-//struct eScreen: View {
-//    let len_area: Int
-//    @State private var isShowingDetailsView = false
-//    @State private var numbersInCells: [Int: Int] = [:] // Словарь для хранения чисел в ячейках
-//    @State private var cellStatus: [Int: Bool] = [:] // Статус ячеек (true - заполнено автоматически, false - заполнено пользователем)
-//    @State private var cellColors: [Int: Color] = [:]
-//    @State private var allNumbersInCells: [Int: Int] = [:]
-//    @State private var errorCount: Int = 0
-//    @State private var showEndGameAlert = false
-//    @State private var showCompletionAlert = false
-//    @State private var gameTime: TimeInterval = 0
-//    @State private var gameTimer: Timer?
-//    @State private var highlightedNumber: Int? = nil
-//    @State private var placedNumbersCount: [Int: Int] = [:]
-//    
-//    var body: some View {
-//        VStack() {
-//            NavigationView {
-//                NavigationLink {
-//                    GameScreen(len_area: len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
-//                } label: {
-//                    Text("Начать игру")
-//                        .font(.title)
-//                        .foregroundColor(Color.white)
-//                        .multilineTextAlignment(.center)
-//                        .frame(width: 300.0, height: 50.0)
-//                        .background(Color(red: 0.192, green: 0.477, blue: 0.907))
-//                        .cornerRadius(50)
-//                }
-//            }
-//        }
-//    }
-//}
-//    
-//
-//
-////struct scree: View {
-////    var len_area: Int = 3
-////    @State var nnn: Bool = true
-////    var body: some View {
-////        eScreen(len_area: len_area, nnn: $nnn)
-////    }
-////}
-//
-//
-//#Preview {
-//    //    scree(len_area: 4)
-//    eScreen(len_area: 3)
-//}

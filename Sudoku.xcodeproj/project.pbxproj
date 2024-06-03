@@ -11,7 +11,6 @@
 		8352F28F2BDD460F00403B45 /* SudokuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8352F28E2BDD460F00403B45 /* SudokuApp.swift */; };
 		8352F2912BDD460F00403B45 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8352F2902BDD460F00403B45 /* ContentView.swift */; };
 		8352F2932BDD461000403B45 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8352F2922BDD461000403B45 /* Assets.xcassets */; };
-		8352F2962BDD461000403B45 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8352F2952BDD461000403B45 /* Preview Assets.xcassets */; };
 		8352F2A02BDD461000403B45 /* SudokuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8352F29F2BDD461000403B45 /* SudokuTests.swift */; };
 		8352F2AA2BDD461000403B45 /* SudokuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8352F2A92BDD461000403B45 /* SudokuUITests.swift */; };
 		8352F2AC2BDD461000403B45 /* SudokuUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8352F2AB2BDD461000403B45 /* SudokuUITestsLaunchTests.swift */; };
@@ -51,7 +50,6 @@
 		8352F28E2BDD460F00403B45 /* SudokuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuApp.swift; sourceTree = "<group>"; };
 		8352F2902BDD460F00403B45 /* ContentView.swift */ = {isa = PBXFileReference; indentWidth = 5; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; tabWidth = 5; };
 		8352F2922BDD461000403B45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		8352F2952BDD461000403B45 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8352F29B2BDD461000403B45 /* SudokuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SudokuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8352F29F2BDD461000403B45 /* SudokuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuTests.swift; sourceTree = "<group>"; };
 		8352F2A52BDD461000403B45 /* SudokuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SudokuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,7 +65,7 @@
 		83AC00462BE3F26A0055E44C /* second.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = second.jpg; path = "../../../../Library/Application Support/Dropzone/Promised Files/DzFilePromise-3AA571C5-CF1C-46F6-AAC2-55426821D33B/second.jpg"; sourceTree = "<group>"; };
 		83BEFA552BDDB30C00249C29 /* SudokuGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SudokuGrid.swift; sourceTree = "<group>"; };
 		83BEFA572BDDB3CD00249C29 /* ButtonPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonPanel.swift; sourceTree = "<group>"; };
-		83C82E542BF8B8FF00B3201A /* screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = screen.jpg; sourceTree = SOURCE_ROOT; };
+		83C82E542BF8B8FF00B3201A /* screen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = screen.jpg; path = Sudoku/MainMenu/screen.jpg; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +116,6 @@
 		8352F28D2BDD460F00403B45 /* Sudoku */ = {
 			isa = PBXGroup;
 			children = (
-				83C82E542BF8B8FF00B3201A /* screen.jpg */,
 				835D1D4C2BE2BFA600326A0E /* MainMenu */,
 				83BEFA542BDDB2C900249C29 /* GameScreen */,
 				8352F2B82BDD468500403B45 /* Algoritm */,
@@ -133,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				8352F2922BDD461000403B45 /* Assets.xcassets */,
-				8352F2952BDD461000403B45 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -166,6 +162,7 @@
 		835D1D4C2BE2BFA600326A0E /* MainMenu */ = {
 			isa = PBXGroup;
 			children = (
+				83C82E542BF8B8FF00B3201A /* screen.jpg */,
 				83AC00452BE3F26A0055E44C /* first.jpg */,
 				83AC00462BE3F26A0055E44C /* second.jpg */,
 				835D1D4D2BE2BFC100326A0E /* MenuScreen.swift */,
@@ -296,7 +293,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8352F2962BDD461000403B45 /* Preview Assets.xcassets in Resources */,
 				83AC00472BE3F26A0055E44C /* first.jpg in Resources */,
 				83AC00482BE3F26A0055E44C /* second.jpg in Resources */,
 				83C82E552BF8B8FF00B3201A /* screen.jpg in Resources */,
@@ -376,6 +372,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_SHORTCUTS_ENABLE_FLEXIBLE_MATCHING = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -405,8 +402,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = KZFB5H42V9;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -439,6 +438,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_SHORTCUTS_ENABLE_FLEXIBLE_MATCHING = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -468,8 +468,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = KZFB5H42V9;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -525,7 +527,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -563,7 +565,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

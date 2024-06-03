@@ -12,6 +12,7 @@ struct EndGameView: View {
     @Binding var isVisible: Bool
 
     var len_area: Int = 3
+    var difficultyLevel: String
     @State private var isShowingDetailsView = false
     @State private var numbersInCells: [Int: Int] = [:]
     @State private var cellStatus: [Int: Bool] = [:]
@@ -24,6 +25,7 @@ struct EndGameView: View {
     @State private var gameTimer: Timer?
     @State private var highlightedNumber: Int? = nil
     @State private var placedNumbersCount: [Int: Int] = [:]
+    @State private var activeSquareIndices: Set<Int> = []
 
     var body: some View {
         VStack {
@@ -32,12 +34,12 @@ struct EndGameView: View {
                 .padding()
 
             NavigationLink {
-//                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
-//                           cellStatus: $cellStatus, cellColors: $cellColors,
-//                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
-//                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
-//                           gameTime: $gameTime, gameTimer: $gameTimer,
-//                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount)
+                GameScreen(len_area: len_area, numbersInCells: $numbersInCells,
+                           cellStatus: $cellStatus, cellColors: $cellColors,
+                           allNumbersInCells: $allNumbersInCells, errorCount: $errorCount,
+                           showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert,
+                           gameTime: $gameTime, gameTimer: $gameTimer,
+                           highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices, difficultyLevel: .constant(difficultyLevel))
             } label: {
                 Text("Начать новую игру")
                     .font(.callout)

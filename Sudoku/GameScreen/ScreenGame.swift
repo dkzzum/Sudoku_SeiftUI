@@ -24,11 +24,11 @@ struct GameScreen: View {
     @Binding var highlightedNumber: Int? // Привязка к выделенному числу
     @Binding var placedNumbersCount: [Int: Int] // Привязка к количеству размещенных чисел
     @Binding var activeSquareIndices: Set<Int>
+    @Binding var difficultyLevel: String
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Фоновое изображение
                 Image(uiImage: #imageLiteral(resourceName: "screen.jpg"))
                     .resizable(capInsets: EdgeInsets(), resizingMode: .tile)
                     .edgesIgnoringSafeArea(.all)
@@ -39,7 +39,7 @@ struct GameScreen: View {
                         .padding(.top, 30.0)
                     
                     // Сетка контейнеров с игровым полем
-                    ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices)
+                    ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices, difficultyLevel: $difficultyLevel)
                         .padding(.top, 30.0)
                         .padding(.bottom, 20.0)
                         .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9)
@@ -52,7 +52,7 @@ struct GameScreen: View {
                 }
                 .padding(.bottom, 80)
                 .overlay(
-                    showEndGameAlert ? EndGameView(isVisible: $showEndGameAlert) : nil
+                    showEndGameAlert ? EndGameView(isVisible: $showEndGameAlert, difficultyLevel: difficultyLevel) : nil
                 )
                 .overlay(
                     showCompletionAlert ? AnyView(CompletionAlertView(isVisible: $showCompletionAlert, gameTime: gameTime, difficultyLevel: "Easy")) : nil

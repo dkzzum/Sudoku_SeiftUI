@@ -9,7 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
      var body: some View {
-          MenuScreen()
+          ZStack {
+               Image(uiImage: #imageLiteral(resourceName: "screen.jpg"))
+                   .resizable(capInsets: EdgeInsets(), resizingMode: .tile)
+                   .edgesIgnoringSafeArea(.all)
+               
+               MenuScreen()
+          }
      }
      
 }

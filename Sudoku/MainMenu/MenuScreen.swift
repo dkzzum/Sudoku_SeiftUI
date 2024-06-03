@@ -17,28 +17,35 @@ struct MenuScreen: View {
     @State private var selectionTab: Tab = .house // Переменная для хранения текущей выбранной вкладки
 
     var body: some View {
-        TabView(selection: $selectionTab) { // TabView для переключения между вкладками
-            BigCenterButton()
-                .tabItem {
-                    Image(systemName: cards[0][0]) // Иконка для вкладки "Главная"
-                    Text(cards[0][1]) // Текст для вкладки "Главная"
+        ZStack {
+            TabView(selection: $selectionTab) { // TabView для переключения между вкладками
+                BigCenterButton()
+                    .tabItem {
+                        Image(systemName: cards[0][0]) // Иконка для вкладки "Главная"
+                        Text(cards[0][1]) // Текст для вкладки "Главная"
+                    }
+                RulesScreen()
+                    .tabItem {
+                        Image(systemName: cards[1][0]) // Иконка для вкладки "Правила"
+                        Text(cards[1][1]) // Текст для вкладки "Правила"
+                    }
+                ZStack {
+                    Image(uiImage: #imageLiteral(resourceName: "screen.jpg"))
+                        .resizable(capInsets: EdgeInsets(), resizingMode: .tile)
+                        .edgesIgnoringSafeArea(.all)
+                    Text("Статистика")
                 }
-            RulesScreen()
-                .tabItem {
-                    Image(systemName: cards[1][0]) // Иконка для вкладки "Правила"
-                    Text(cards[1][1]) // Текст для вкладки "Правила"
-                }
-            Text("Статистика")
-                .tabItem {
-                    Image(systemName: cards[2][0]) // Иконка для вкладки "Статистика"
-                    Text(cards[2][1]) // Текст для вкладки "Статистика"
-                }
+                    .tabItem {
+                        Image(systemName: cards[2][0]) // Иконка для вкладки "Статистика"
+                        Text(cards[2][1]) // Текст для вкладки "Статистика"
+                    }
+            }
+            .background(Color.white) // Устанавливаем белый фон для TabView
+            .onAppear {
+                UITabBar.appearance().backgroundColor = UIColor.white
+            }
+            .navigationBarHidden(true) // Скрыть навигационную панель
         }
-        .background(Color.white) // Устанавливаем белый фон для TabView
-        .onAppear {
-            UITabBar.appearance().backgroundColor = UIColor.white
-        }
-        .navigationBarHidden(true) // Скрыть навигационную панель
     }
 }
 
@@ -66,25 +73,129 @@ struct BigCenterButton: View {
     @State private var highlightedNumber: Int? = nil // Выделенное число
     @State private var placedNumbersCount: [Int: Int] = [:] // Количество размещенных чисел
     @State private var activeSquareIndices: Set<Int> = []
-
+    @State private var difficultyLevel: String = ""
+    @State private var navigateToGameScreen = false
+    @State private var showMenu: Bool = false
+    
     var body: some View {
         NavigationView {
-            NavigationLink {
-                // Переход на экран игры с передачей всех необходимых данных
-                GameScreen(len_area: len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices)
-            } label: {
-                Text("Начать игру")
-                    .font(.title)
-                    .foregroundColor(Color.white)
-                    .multilineTextAlignment(.center)
-                    .frame(width: 300.0, height: 50.0)
-                    .background(Color(red: 0.192, green: 0.477, blue: 0.907))
-                    .cornerRadius(50)
+            VStack {
+                ZStack {
+                    Image(uiImage: #imageLiteral(resourceName: "screen.jpg"))
+                        .resizable(capInsets: EdgeInsets(), resizingMode: .tile)
+                        .edgesIgnoringSafeArea(.all)
+                    Button(action: {
+                        showMenu.toggle()
+                    }) {
+                        Text("Начать игру")
+                            .font(.title)
+                            .foregroundColor(Color.white)
+                            .multilineTextAlignment(.center)
+                            .frame(width: 300.0, height: 50.0)
+                            .background(Color(red: 0.192, green: 0.477, blue: 0.907))
+                            .cornerRadius(50)
+                    }
+                    .popover(isPresented: $showMenu) {
+                        MenuView(showMenu: $showMenu,
+                                 len_area: len_area,
+                                 numbersInCells: $numbersInCells,
+                                 cellStatus: $cellStatus,
+                                 cellColors: $cellColors,
+                                 allNumbersInCells: $allNumbersInCells,
+                                 errorCount: $errorCount,
+                                 showEndGameAlert: $showEndGameAlert,
+                                 showCompletionAlert: $showCompletionAlert,
+                                 gameTime: $gameTime,
+                                 gameTimer: $gameTimer,
+                                 highlightedNumber: $highlightedNumber,
+                                 placedNumbersCount: $placedNumbersCount,
+                                 activeSquareIndices: $activeSquareIndices,
+                                 difficultyLevel: $difficultyLevel,
+                                 navigateToGameScreen: $navigateToGameScreen)
+                        //                    .frame(width: 300, height: 400)
+                                            .background(Color(red: 0.981, green: 0.985, blue: 1.0))
+                    }
+                    
+                    NavigationLink(destination: GameScreen(len_area: len_area, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert,showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices, difficultyLevel: $difficultyLevel),
+                                   isActive: $navigateToGameScreen) {
+                        //                    EmptyView()
+                    }
+                    
+                }
             }
         }
     }
 }
 
+struct MenuView: View {
+    @Binding var showMenu: Bool
+    var len_area: Int
+    @Binding var numbersInCells: [Int: Int]
+    @Binding var cellStatus: [Int: Bool]
+    @Binding var cellColors: [Int: Color]
+    @Binding var allNumbersInCells: [Int: Int]
+    @Binding var errorCount: Int
+    @Binding var showEndGameAlert: Bool
+    @Binding var showCompletionAlert: Bool
+    @Binding var gameTime: TimeInterval
+    @Binding var gameTimer: Timer?
+    @Binding var highlightedNumber: Int?
+    @Binding var placedNumbersCount: [Int: Int]
+    @Binding var activeSquareIndices: Set<Int>
+    @Binding var difficultyLevel: String
+    @Binding var navigateToGameScreen: Bool
+    
+    var body: some View {
+        VStack {
+            Text("Выберите сложность:")
+                .font(.title)
+                .padding()
+                .padding(.top, 20.0)
+            
+            VStack() {
+                MenuItemView(icon: "1.lane", text: "Лёгкий") { selectMode("Лёгкий") }
+                MenuItemView(icon: "2.lane", text: "Средний") { selectMode("Средний") }
+                MenuItemView(icon: "3.lane", text: "Сложный") { selectMode("Сложный") }
+            }
+            .padding()
+//            .frame(height: 300)
+        }
+        .background(Color(red: 0.981, green: 0.985, blue: 1.0))
+        .padding(.bottom, 20.0)
+        Spacer()
+    }
+    
+    private func selectMode(_ mode: String) {
+        difficultyLevel = mode
+        showMenu = false
+        navigateToGameScreen = true
+    }
+}
+
+struct MenuItemView: View {
+    let icon: String
+    let text: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: icon)
+                    .resizable(resizingMode: .stretch)
+                    .foregroundColor(.gray)
+                    .frame(width: 25, height: 25)
+                Text(text)
+                    .padding(.leading, 5)
+                    .foregroundColor(.black)
+                Spacer()
+            }
+            .padding()
+            .background(Color(red: 0.981, green: 0.985, blue: 1.0))
+//            .background(Color(UIColor.secondarySystemBackground))
+            .cornerRadius(10)
+        }
+    }
+}
 
 // Структура, представляющая экран с правилами игры
 struct RulesScreen: View {
