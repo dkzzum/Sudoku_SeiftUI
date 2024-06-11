@@ -42,12 +42,12 @@ struct GameScreen: View {
                     ContainerGrid(len_area: len_area, selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, highlightedNumber: $highlightedNumber, gameTimer: $gameTimer, placedNumbersCount: $placedNumbersCount, activeSquareIndices: $activeSquareIndices, difficultyLevel: $difficultyLevel)
                         .padding(.top, 30.0)
                         .padding(.bottom, 20.0)
-                        .frame(width: geometry.size.width * 0.9, height: geometry.size.width * 0.9)
+                        .frame(width: geometry.size.width, height: geometry.size.width)
                     
                     // Панель выбора чисел
-                    NumberPicker(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount, len_area: len_area, activeSquareIndices: $activeSquareIndices)
+                    ButtomPanel(selectedNumber: $selectedNumber, lastTappedIndex: $lastTappedIndex, numbersInCells: $numbersInCells, cellStatus: $cellStatus, cellColors: $cellColors, allNumbersInCells: $allNumbersInCells, errorCount: $errorCount, showEndGameAlert: $showEndGameAlert, showCompletionAlert: $showCompletionAlert, gameTime: $gameTime, gameTimer: $gameTimer, highlightedNumber: $highlightedNumber, placedNumbersCount: $placedNumbersCount, len_area: len_area, activeSquareIndices: $activeSquareIndices)
                         .padding(.top, 10.0)
-                        .frame(width: geometry.size.width * 0.9, height: 100)
+                        .frame(width: geometry.size.width * 0.9, height: geometry.size.height * 0.3)
                         .shadow(color: Color.black.opacity(0.15), radius: 0, x: 0, y: 3)
                 }
                 .padding(.bottom, 80)
@@ -102,9 +102,3 @@ struct GameScreen: View {
     }
 }
 
-
-
-
-//#Preview {
-//    GameScreen(len_area: 3)
-//}

@@ -8,7 +8,7 @@
 import SwiftUI
 
 // Структура для представления панели выбора чисел
-struct NumberPicker: View {
+struct ButtomPanel: View {
     let cards: [CardAndText] = [
         CardAndText(card: "arrowshape.turn.up.backward.fill", text: "Отмена"),
         CardAndText(card: "eraser.fill", text: "Стереть"),
@@ -287,7 +287,3 @@ struct CardAndText: Identifiable {
     let id: UUID = UUID()
 }
 
-
-//#Preview {
-//    NumberPicker()
-//}
